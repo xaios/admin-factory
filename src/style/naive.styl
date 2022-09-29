@@ -1,0 +1,69 @@
+.n-spin
+  position relative
+
+.n-menu.n-menu--horizontal .n-menu-item
+  height 60px
+
+.n-menu.n-menu--horizontal .n-menu-item-content
+  border-top 4px solid transparent
+
+.n-menu.n-menu--horizontal .n-menu-item-content:not(.n-menu-item-content--disabled):hover
+.n-menu.n-menu--horizontal .n-menu-item-content.n-menu-item-content--selected
+  border-bottom-color #2b73af
+
+.n-message-container.n-message-container--top
+  top 9px
+
+.n-select+.n-select, .n-select+.n-button, .n-button+.n-button
+  margin-left 5px
+
+.n-date-panel .n-date-panel-actions .n-button:not(:last-child)
+  margin-right 0
+
+.n-dynamic-input-item
+  padding 12px
+  border 1px solid #dcdee2
+  border-radius 3px
+  transition all .2s ease-in-out
+
+  &:hover
+    border-color #2b73af
+
+.n-data-table
+  .n-data-table-th, .n-data-table-td
+    text-align center
+    white-space pre-wrap
+
+  .n-data-table-th
+    background #f2f7ff
+
+.n-data-table+.n-data-table
+  margin-top 10px
+
+.n-data-table-th.n-data-table-th--fixed-right.n-data-table-th--last, .n-data-table-td.n-data-table-td--fixed-right
+  box-shadow -2px 0 6px -2px #00000033
+
+.n-data-table .n-data-table-tr:not(.n-data-table-tr--summary):hover,
+.n-data-table .n-data-table-tr:not(.n-data-table-tr--summary):hover .n-data-table-td[colspan]:not([rowspan]),
+.n-data-table .n-data-table-tr:not(.n-data-table-tr--summary):hover .n-data-table-td .n-data-table-tr .n-data-table-td
+  background unset
+
+.n-data-table .n-data-table-tr:not(.n-data-table-tr--summary) .n-data-table-td .n-data-table-tr:hover
+  background #ebf7ff
+
+.n-data-table .n-data-table-td[colspan]:not([rowspan])
+  padding 0
+
+.n-pagination
+  justify-content flex-end
+  margin-top 10px
+
+.n-dialog .n-dialog__content
+  word-break break-all
+  white-space pre-wrap
+
+.n-popover__content
+  white-space pre-wrap
+
+.n-back-top
+  z-index 1000

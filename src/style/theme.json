@@ -1,0 +1,39 @@
+{
+  "common": {
+    "borderColor": "#dcdee2",
+    "primaryColor": "#2b73af",
+    "primaryColorHover": "#558fbf",
+    "primaryColorPressed": "#0f59a4",
+    "primaryColorSuppl": "#558fbf",
+    "textColorBase": "#282828"
+  },
+  "Card": {
+    "paddingMedium": "14px 16px",
+    "titleFontSizeMedium": "14px"
+  },
+  "DataTable": {
+    "lineHeight": "1.2",
+    "borderColor": "#d2ddf3",
+    "emptyPadding": "40px 0",
+    "tdColorHover": "#ebf7ff",
+    "tdPaddingMedium": "12px 4px",
+    "thPaddingMedium": "10px 4px"
+  },
+  "Dialog": {
+    "actionSpace": "0"
+  },
+  "Input": {
+    "caretColor": "#2b73af",
+    "loadingColor": "#2b73af"
+  },
+  "Space": {
+    "gapMedium": "8px 10px"
+  },
+  "Switch": {
+    "railColorActive": "#2b73af"
+  },
+  "Tabs": {
+    "tabTextColorActiveCard": "#2b73af",
+    "tabTextColorHoverCard": "#2b73af"
+  }
+}

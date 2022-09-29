@@ -1,0 +1,117 @@
+@import 'naive'
+
+body
+  font-size 0
+
+.f_center
+  display flex
+  justify-content center
+
+.f_vertically
+  display flex
+  align-items center
+
+.f_middle
+  display flex
+  align-items center
+  justify-content center
+
+.p_center
+  position absolute
+  left 50%
+  transform translate(-50%)
+
+.p_vertically
+  position absolute
+  top 50%
+  transform translateY(-50%)
+
+.p_middle
+  position absolute
+  top 50%
+  left 50%
+  transform translate(-50%, -50%)
+
+.fade-enter-active, .fade-leave-active
+  transition all .3s
+
+.fade-enter-from, .fade-leave-to
+  opacity 0
+
+.g-link, a
+  font-size 14px
+  cursor pointer
+  text-decoration none
+
+.g-link:hover, a:hover
+  text-decoration underline
+
+.g-link, a, a:link, a:visited, a:hover, a:active
+  color #2d8cf0
+
+.g-link+.g-link
+  margin-left 10px
+
+.g-font, .n-dialog__content
+  font-family font-aios
+
+.g-title, .g-title-gray, .g-title-error, .g-title-bg
+  display flex
+  align-items center
+  margin 8px 0
+  font-size 14px
+
+  &::before
+    content ''
+    display block
+    flex-shrink 0
+    width 6px
+    height 30px
+    margin-right 10px
+    background #2b73af
+
+  &:first-child
+    margin-top 0
+
+.g-title-gray::before
+  background #0f0f0f
+
+.g-title-error::before
+  background #d03050
+
+.g-title-bg
+  padding-right 10px
+  background #ecf5ff
+
+.g-title-gray.g-title-bg
+  background #f0f0f0
+
+.g-title-error.g-title-bg
+  background #fef0f0
+
+.g-form-0 .n-form-item-feedback-wrapper
+  min-height 0
+
+.g-form-10 .n-form-item-feedback-wrapper
+  min-height 10px
+
+.g-flex-container
+  display flex
+  flex-direction column
+  height 100%
+
+.g-modal-full
+  height 100vh
+
+.g-modal-footer
+  margin-top 20px
+  text-align right
+
+.n-form:not(.g-form-0)+.g-modal-footer
+  margin-top 0
+
+.g-type-green, a.g-type-green
+  color #18a058
+
+.g-type-red, a.g-type-red
+  color #d03050
