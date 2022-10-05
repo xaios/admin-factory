@@ -1,4 +1,5 @@
 import ENV from '@self/config/config.json'
+import SELF from '@self/config/language'
 
 const CONFIG = {
   network_error: ['网络状态异常', '網絡狀態異常', 'Abnormal Network Status'],
@@ -68,6 +69,7 @@ const CONFIG = {
 const TYPE = ['cn', 'cht', 'en']
 const LANG = { cn: {}, cht: {}, en: {} }
 
+Object.keys(SELF).forEach(i => CONFIG[i] = SELF[i])
 Object.keys(CONFIG).forEach(i => CONFIG[i].forEach((text, index) => LANG[TYPE[index]][i] = text))
 
-export default LANG[ENV.lang || 'cn']
+export default LANG[TYPE.includes(ENV.lang) ? ENV.lang : TYPE[0]]

@@ -59,7 +59,7 @@
         this.$refs.form_login.validate().then(() => {
           if (this.loading) return
           this.loading = true
-          this.$store.dispatch('UserLogin', this.form_login).then(data => {
+          this.$store_root.UserLogin(this.form_login).then(data => {
             this.loading = false
             this.$router.replace('/space')
           }).catch(() => this.loading = false)

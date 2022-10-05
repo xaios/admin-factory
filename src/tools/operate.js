@@ -1,6 +1,6 @@
 import TinyEmitter from 'tiny-emitter'
 
-import store from '@root/store'
+import LANG from '@root/tools/language'
 
 const Emitter = new TinyEmitter
 
@@ -30,11 +30,11 @@ function DialogHandle(type, config = {}) {
 
     if (type == 'confirm') {
       type = 'warning'
-      config.text_0 = config.text_0 || store.state.lang.cancel
+      config.text_0 = config.text_0 || LANG.cancel
     }
 
-    config.title = config.title || store.state.lang.warn_prompt
-    config.positiveText = config.text_1 || store.state.lang.confirm
+    config.title = config.title || LANG.warn_prompt
+    config.positiveText = config.text_1 || LANG.confirm
     config.negativeText = config.text_0
     config.onPositiveClick = () => config.Todo1 ? config.Todo1() : resolve()
     config.onNegativeClick = () => config.Todo0 ? config.Todo0() : reject()

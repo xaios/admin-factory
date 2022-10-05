@@ -45,13 +45,13 @@
   - components，全局组件目录，具体说明在目录内的 README.md 中
   - image，全局图片目录
   - pages，框架页面与登录页面
-  - store，全局数据库与语言包配置
   - style，全局样式
   - tools，全局工具函数，包括项目初始化与路由初始化等内容，具体说明在目录内的 README.md 中
   - index.js，是 vite.config.js 的生成逻辑
 - src_${name}，具体后台的私有文件
   - config，后台配置内容，具体说明在目录内的 README.md 中
     - config.json，后台基础配置
+    - language.js，私有语言包配置
     - route.js，路由与菜单配置
     - store.js，后台数据库配置
   - index，后台首页

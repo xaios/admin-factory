@@ -118,13 +118,13 @@
             validator: (rule, value) => {
               return new Promise(async (resolve, reject) => {
                 let data = { old: this.form_config.password_0, new: value }
-                let result = this.$store.dispatch('self/PasswordValidate', data)
+                let result = this.$store.PasswordValidate ? this.$store.PasswordValidate(data) : false
 
                 if (result instanceof Promise)
                   result = await result
 
                 if (result === false)
-                  result = await this.$store.dispatch('PasswordValidate', data)
+                  result = await this.$store_root.PasswordValidate(data)
 
                 result instanceof Error ? reject(result) : resolve(result)
               })
@@ -191,7 +191,7 @@
         })
       },
       UserLogout() {
-        this.$dialog.confirm({ content: this.lang.sure_logout }).then(() => this.$store.dispatch('UserLogout'))
+        this.$dialog.confirm({ content: this.lang.sure_logout }).then(() => this.$store_root.UserLogout())
       },
       ChooseTab(path) {
         this.$route.fullPath != path && this.$router.replace(path)

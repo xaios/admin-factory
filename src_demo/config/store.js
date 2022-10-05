@@ -1,19 +1,12 @@
-export default {
-  namespaced: true,
+import { defineStore } from 'pinia'
+
+export default defineStore('self', {
   state: () => ({
 
   }),
-  mutations: {
-    SetData(state, data) {
-      Object.keys(data).forEach(i => state[i] = data[i])
-    }
-  },
   actions: {
-    SetData(context, data) {
-      context.commit('SetData', data)
-    },
-    PasswordValidate(context, data) {
-      return false
+    PasswordValidate(data) {
+      return new Error('项目示例，不支持密码修改')
     }
   }
-}
+})

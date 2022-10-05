@@ -1,4 +1,4 @@
-import store from '@root/store'
+import LANG from '@root/tools/language'
 import { default as Emitter, Message } from '@root/tools/operate'
 
 export default function(width, height, is_crop) {
@@ -10,10 +10,10 @@ export default function(width, height, is_crop) {
       let file = input.files[0]
 
       if (file.type != 'image/jpeg' && file.type != 'image/png') {
-        Message.warning(store.state.lang.upload_format)
+        Message.warning(LANG.upload_format)
         resolve()
       } else if (file.size > 2097152) {
-        Message.warning(store.state.lang.upload_max_size)
+        Message.warning(LANG.upload_max_size)
         resolve()
       } else if (width || is_crop) {
         Emitter.emit('crop', file, width ? [width, height] : is_crop, resolve)

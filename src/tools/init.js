@@ -2,11 +2,14 @@ import 'vue-cropper/dist/index.css'
 import '@root/style/index.styl'
 
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
 import Clipboard from 'clipboard'
 import VueCropper from 'vue-cropper'
 
-import store from '@root/store'
 import route from '@root/tools/route'
+import useRootStore from '@root/tools/store'
+import useSelfStore from '@self/config/store'
 
 import Copy from '@root/tools/copy'
 import Preload from '@root/tools/preload'
@@ -26,6 +29,7 @@ import component_number from '@root/components/number/index.vue'
 import component_image_picker from '@root/components/image-picker/index.vue'
 
 const app = createApp(main)
+app.use(createPinia())
 
 app.component('g-bar', component_bar)
 app.component('g-form', component_form)
@@ -47,11 +51,13 @@ app.config.globalProperties.$preload = Preload
 app.config.globalProperties.$time = FormatTime
 app.config.globalProperties.$menu = ContextMenu
 app.config.globalProperties.$image = ChooseImage
+app.config.globalProperties.$store_root = useRootStore()
+app.config.globalProperties.$store = useSelfStore()
 app.config.globalProperties.$button = CreateButton
 app.config.globalProperties.$number = FormatNumber
 app.config.globalProperties.$switch = CreateSwitch
 app.config.globalProperties.$pager = (source, index, size = 20) => source.slice((index - 1) * size, index * size)
 
-app.use(store).use(route).use(VueCropper)
+app.use(route).use(VueCropper)
 
 export default app

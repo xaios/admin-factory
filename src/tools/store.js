@@ -1,11 +1,9 @@
-import { createStore } from 'vuex'
 import { Get, Post } from '@root/tools/request'
+import { defineStore, mapState as mapStatePinia } from 'pinia'
 import { default as router, AddRoute, ResetRoute } from '@root/tools/route'
 
-import LANG from './lang.config'
-
+import LANG from '@root/tools/language'
 import ENV from '@self/config/config.json'
-import STORE_SELF from '@self/config/store'
 
 document.title = ENV.name
 
@@ -13,7 +11,7 @@ const TOKEN = `pomelo_token_${location.origin}`
 const USER_NAME = `pomelo_name_${location.origin}`
 const USER_ACCOUNT = `pomelo_account_${location.origin}`
 
-export default createStore({
+const STORE = defineStore('root', {
   state: () => ({
     env: ENV,
     lang: LANG,
@@ -24,19 +22,8 @@ export default createStore({
     user_name: localStorage[USER_NAME],
     user_account: localStorage[USER_ACCOUNT]
   }),
-  modules: {
-    self: STORE_SELF
-  },
-  mutations: {
-    SetData(state, data) {
-      Object.keys(data).forEach(i => state[i] = data[i])
-    }
-  },
   actions: {
-    SetData(context, data) {
-      context.commit('SetData', data)
-    },
-    PasswordValidate(context, data) {
+    PasswordValidate(data) {
       if (data.new.length < 6)
         return new Error(data.new ? LANG.password_size : LANG.password_new)
       else if (data.new == data.old)
@@ -44,7 +31,7 @@ export default createStore({
       else
         return true
     },
-    UserLogin(context, data) {
+    UserLogin(data) {
       return new Promise((resolve, reject) => {
         Post('Login/Login', { account: data.username, password: data.password }).then(data => {
           localStorage[TOKEN] = 'true'
@@ -52,14 +39,14 @@ export default createStore({
         }).catch(reject)
       })
     },
-    UserLogout(context) {
+    UserLogout() {
       Post('Login/Logout')
       delete localStorage[TOKEN]
       router.replace('/')
-      setTimeout(() => context.commit('SetData', { menu: [], menu_route: [] }), 2000)
-      ResetRoute(context.state.user_role)
+      setTimeout(() => this.$patch({ menu: [], menu_route: [] }), 2000)
+      ResetRoute(this.user_role)
     },
-    GetUserInfo(context) {
+    GetUserInfo() {
       return new Promise((resolve, reject) => {
         Get('Login/GetAdminUserInfo').then(data => {
           AddRoute(data.roleName)
@@ -67,7 +54,7 @@ export default createStore({
           let user_name = `${data.userName}（${data.account}）`
           localStorage[USER_NAME] = user_name
           localStorage[USER_ACCOUNT] = data.account
-          context.commit('SetData', { user_name, user_account: data.account, user_role: data.roleName })
+          this.$patch({ user_name, user_account: data.account, user_role: data.roleName })
 
           resolve()
         }).catch(reject)
@@ -75,3 +62,9 @@ export default createStore({
     }
   }
 })
+
+export default STORE
+
+export function mapState(list) {
+  return mapStatePinia(STORE, list)
+}

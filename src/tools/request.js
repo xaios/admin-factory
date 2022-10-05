@@ -1,32 +1,33 @@
-import Axios from 'axios'
-import store from '@root/store'
+import axios from 'axios'
+import LANG from '@root/tools/language'
+import useRootStore from '@root/tools/store'
 import { Dialog, Message, Loading } from '@root/tools/operate'
 
-const Request = Axios.create({ timeout: 30000, baseURL: '/api' })
+const Request = axios.create({ timeout: 30000, baseURL: '/api' })
 
 Request.interceptors.response.use(res => {
   res = res.data
   if (res.code == 0) {
     return res.data
   } else if (res.code == 1) {
-    Message.error({ content: `${store.state.lang.cgi_error}，${store.state.lang.error_msg}：${res.message || store.state.lang.nothing}`, closable: true })
+    Message.error({ content: `${LANG.cgi_error}，${LANG.error_msg}：${res.message || LANG.nothing}`, closable: true })
     Loading.hide()
     return Promise.reject()
   } else if (res.code == 2) {
-    Dialog.error({ title: store.state.lang.cgi_error, content: res.message || store.state.lang.no_error })
+    Dialog.error({ title: LANG.cgi_error, content: res.message || LANG.no_error })
     Loading.hide()
     return Promise.reject()
   } else if (res.code == 3) {
-    store.dispatch('UserLogout')
+    useRootStore().UserLogout()
     return Promise.reject()
   }
 }, e => {
   if (e.response && e.response.status == 401)
-    store.dispatch('UserLogout')
+    useRootStore().UserLogout()
   else if (e.response)
-    Dialog.error({ title: store.state.lang.network_error, content: `${store.state.lang.state_info}：${e.response.status}` })
+    Dialog.error({ title: LANG.network_error, content: `${LANG.state_info}：${e.response.status}` })
   else if (e.toString().includes('timeout'))
-    Dialog.error({ title: store.state.lang.network_timeout, content: store.state.lang.try_later })
+    Dialog.error({ title: LANG.network_timeout, content: LANG.try_later })
 
   Loading.hide()
   return Promise.reject()

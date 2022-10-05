@@ -13,6 +13,10 @@
 }
 ```
 
+## language.js
+
+项目私有的语言包配置，参考 `/src/tools/language.js`，设置对应的内容，也可以设置新的语句标识在项目中使用。
+
 ## route.js
 
 包含所有权限可访问列表的配置信息，以权限身份为 Key。
@@ -44,16 +48,16 @@ export default {
 
 ## store.js
 
-页面私有的数据库，使用 self 作为命名空间，一般不需要配置。
+页面私有的数据库，一般不需要配置，可在全局环境下通过 `this.$store` 访问。
 
-`PasswordValidate` 方法在修改密码时会被调用，可用于分析密码强度：
+`PasswordValidate` 方法在修改密码时会被调用，可用于分析密码强度，：
 
 ```javascript
 // 可以使用 async，也可以返回 Promise，数据返回必须使用 resolve
 PasswordValidate(context, data) {
   // 旧密码：data.old
   // 新密码：data.new
-  // 默认直接返回 false，当返回值为 false 时将使用全局的校验逻辑
+  // 默认直接返回 false，当返回值为 false 时将使用全局的校验逻辑，此方法未配置时也将使用去哪聚的校验逻辑
   // 返回 true 表示校验通过
   // 返回 new Error 将显示错误信息
   return false
