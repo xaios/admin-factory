@@ -24,8 +24,8 @@ import main from '@root/pages/container/index.vue'
 import component_bar from '@root/components/bar/index.vue'
 import component_form from '@root/components/form/index.vue'
 import component_table from '@root/components/table/index.vue'
+import component_vnode from '@root/components/vnode/index.vue'
 import component_editor from '@root/components/editor/index.vue'
-import component_number from '@root/components/number/index.vue'
 import component_image_picker from '@root/components/image-picker/index.vue'
 
 const app = createApp(main)
@@ -34,8 +34,8 @@ app.use(createPinia())
 app.component('g-bar', component_bar)
 app.component('g-form', component_form)
 app.component('g-table', component_table)
+app.component('g-vnode', component_vnode)
 app.component('g-editor', component_editor)
-app.component('g-number', component_number)
 app.component('g-image-picker', component_image_picker)
 
 app.config.globalProperties.$get = Get

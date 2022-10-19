@@ -12,7 +12,7 @@
       </n-dropdown>
     </n-layout-header>
     <n-layout has-sider class='sider'>
-      <n-layout-sider inverted width='14vw' show-trigger='bar' content-style='padding-right: 10px;' :native-scrollbar='false' :collapsed-width='0' v-if='menu.length'>
+      <n-layout-sider inverted show-trigger='bar' content-style='padding-right: 10px;' :native-scrollbar='false' :collapsed-width='0' :width='sider_width' v-if='menu.length'>
         <n-menu inverted :options='menu' :render-label='RenderMenuLabel' v-model:expanded-keys='menu_opened' :value='menu_active' @update:value='ChangeMenu' />
       </n-layout-sider>
       <n-layout-content class='content'>
@@ -94,7 +94,7 @@
       loading: false
     }),
     computed: {
-      ...mapState(['env', 'user_name', 'menu', 'keep', 'lang', 'menu_route']),
+      ...mapState(['env', 'user_name', 'menu', 'keep', 'lang', 'menu_route', 'sider_width']),
       keep_alive() {
         return this.tabs.map(i => i.name).filter(i => this.keep.has(i))
       },
@@ -118,10 +118,7 @@
             validator: (rule, value) => {
               return new Promise(async (resolve, reject) => {
                 let data = { old: this.form_config.password_0, new: value }
-                let result = this.$store.PasswordValidate ? this.$store.PasswordValidate(data) : false
-
-                if (result instanceof Promise)
-                  result = await result
+                let result = this.$store.PasswordValidate ? await this.$store.PasswordValidate(data) : false
 
                 if (result === false)
                   result = await this.$store_root.PasswordValidate(data)

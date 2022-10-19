@@ -6,7 +6,7 @@
           <n-scrollbar style='padding-right: 14px;' :style="{ maxHeight: full ? 'calc(100vh - 112px)' : '' }">
             <template v-for='n in item.list'>
               <n-form-item :label='n.text' :path='n.name' v-if='!n.Check || n.Check(model)' :ref='n.name'>
-                <g-number v-model:value='model[n.name]' :min='n.min' :max='n.max' :fixed='n.fixed' :placeholder='n.holder' v-if="n.type == 'number'" />
+                <n-input-number v-model:value='model[n.name]' :show-button='n.button || false' :min='n.min' :max='n.max' :precision='n.fixed' :placeholder='n.holder' v-if="n.type == 'number'" />
                 <g-editor v-model:value='model[n.name]' :placeholder='n.placeholder || `${lang.input}${n.text}`' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type == 'editor'" />
                 <g-image-picker v-model:value='model[n.name]' :crop='n.crop' :width='n.width' :height='n.height' :readonly='n.readonly' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type == 'image'" />
                 <n-rate v-model:value='model[n.name]' v-else-if="n.type == 'rate'" />

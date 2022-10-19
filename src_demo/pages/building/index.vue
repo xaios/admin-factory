@@ -12,7 +12,7 @@
                 <n-input v-model:value='item.name' />
               </n-form-item>
               <n-form-item label='户型价格'>
-                <g-number :fixed='2' :min='0' v-model:value='item.totalPrice' />
+                <n-input-number :show-button='false' :precision='2' :min='0' v-model:value='item.totalPrice' />
               </n-form-item>
               <n-form-item label='户型图片'>
                 <g-image-picker v-model:value='item.images' :ref='`photo_${index}`' @upload='Uploaded' />

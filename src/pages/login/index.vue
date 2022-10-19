@@ -23,8 +23,11 @@
       <n-button style='margin-top: 10px;margin-bottom: 20px;' block type='primary' size='large' :loading='loading' @click='Login'>{{lang.login}}</n-button>
     </n-card>
     <div class='p_center copyright'>
-      <span>{{env.name}}</span>
-      <span v-if='env.tips'> · {{env.tips}}</span>
+      <g-vnode :vnode='copyright' v-if='copyright' />
+      <template v-else>
+        <span>{{env.name}}</span>
+        <span v-if='env.tips'> · {{env.tips}}</span>
+      </template>
     </div>
   </div>
 </template>
@@ -34,15 +37,18 @@
   import IconUser from '@vicons/tabler/FaceId'
 
   export default {
-    data: () => ({
-      IconUser: markRaw(IconUser),
-      IconLock: markRaw(IconLock),
-      form_login: {
-        username: '',
-        password: ''
-      },
-      loading: false
-    }),
+    data() {
+      return {
+        IconUser: markRaw(IconUser),
+        IconLock: markRaw(IconLock),
+        form_login: {
+          username: '',
+          password: ''
+        },
+        loading: false,
+        copyright: this.$store.copyright
+      }
+    },
     computed: {
       ...mapState(['env', 'lang']),
       rule_login() {

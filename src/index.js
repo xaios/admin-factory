@@ -7,19 +7,19 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
+function TransformHTML(html, root, config) {
+  html = html.replace('%=ICON%', (config.icon || '').replace('@self', root)).replace('%=SRC%', `/${root}/index.js`).replace(/[ ]+</ig, '<')
+
+  ;[/\n+/g, /<!--.*?-->/ig, /\/\*.*?\*\//ig].forEach(i => html = html.replace(i, ''))
+  return html
+}
+
 export default function(name) {
   const root = `src_${name}`
   const config = JSON.parse(fs.readFileSync(`${root}/config/config.json`, 'utf-8'))
 
-  function TransformHTML(html, root, config) {
-    html = html.replace('%=ICON%', config.icon || '').replace('%=SRC%', `/${root}/index.js`).replace(/[ ]+</ig, '<')
-
-    ;[/\n+/g, /<!--.*?-->/ig, /\/\*.*?\*\//ig].forEach(i => html = html.replace(i, ''))
-    return html
-  }
-
   return {
-    base: process.env.NODE_ENV == 'production' ? '/admin/' : '/',
+    base: process.env.NODE_ENV == 'production' ? `/${config.path || 'admin'}/` : '/',
     server: {
       port: config.port || 80,
       proxy: { '/api': config.host }

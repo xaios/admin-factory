@@ -2,7 +2,7 @@ import fs from 'node:fs'
 import { createServer } from 'vite'
 import CreateConfig from './src/index.js'
 
-const name = process.argv[2]
+const name = process.argv[2].startsWith('src_') ? process.argv[2].slice(4) : process.argv[2]
 
 function CheckStat(path) {
   return new Promise(resolve => fs.stat(path, e => {

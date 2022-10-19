@@ -7,9 +7,11 @@
   "name": "Admin Demo",                                             // 项目标题
   "tips": "Powered by Pomelo Studio",                               // 登录页页脚文案
   "lang": "cn",                                                     // 项目基础语言包：cn、cht、en，默认 cn
+  "path": "admin",                                                  // 项目路径基准，默认 admin
   "host": "https://demo-admin.muops.com/",                          // 接口请求转发地址
-  "icon": "https://www.naiveui.com/assets/naivelogo.93278402.svg",  // 项目图标，默认为空
-  "port": 80                                                        // 开发服务器监听端口，默认 80
+  "icon": "https://www.naiveui.com/assets/naivelogo.93278402.svg",  // 项目图标，默认为空，可用 @self 指代项目目录
+  "port": 80,                                                       // 开发服务器监听端口，默认 80
+  "sider_width": "14vw"                                             // 侧边栏宽度，默认 14vw
 }
 ```
 
@@ -53,13 +55,21 @@ export default {
 `PasswordValidate` 方法在修改密码时会被调用，可用于分析密码强度，：
 
 ```javascript
-// 可以使用 async，也可以返回 Promise，数据返回必须使用 resolve
-PasswordValidate(context, data) {
-  // 旧密码：data.old
-  // 新密码：data.new
-  // 默认直接返回 false，当返回值为 false 时将使用全局的校验逻辑，此方法未配置时也将使用去哪聚的校验逻辑
-  // 返回 true 表示校验通过
-  // 返回 new Error 将显示错误信息
-  return false
-}
+export default defineStore('self', {
+  state: () => ({
+    // 可以定义一个名为 copyright 的 VNode，将渲染在登录页页脚部分
+    copyright: h('div', 'copyright')
+  }),
+  actions: {
+    // 可以使用 async，也可以返回 Promise，数据返回必须使用 resolve
+    PasswordValidate(context, data) {
+      // 旧密码：data.old
+      // 新密码：data.new
+      // 默认直接返回 false，当返回值为 false 时将使用全局的校验逻辑，此方法未配置时也将使用去哪聚的校验逻辑
+      // 返回 true 表示校验通过
+      // 返回 new Error 将显示错误信息
+      return false
+    }
+  }
+})
 ```

@@ -20,7 +20,8 @@ const STORE = defineStore('root', {
     menu_route: [],
     user_role: '',
     user_name: localStorage[USER_NAME],
-    user_account: localStorage[USER_ACCOUNT]
+    user_account: localStorage[USER_ACCOUNT],
+    sider_width: ENV.sider_width || '14vw'
   }),
   actions: {
     PasswordValidate(data) {
@@ -49,12 +50,12 @@ const STORE = defineStore('root', {
     GetUserInfo() {
       return new Promise((resolve, reject) => {
         Get('Login/GetAdminUserInfo').then(data => {
-          AddRoute(data.roleName)
+          AddRoute(data.roleName || data.role)
 
           let user_name = `${data.userName}（${data.account}）`
           localStorage[USER_NAME] = user_name
           localStorage[USER_ACCOUNT] = data.account
-          this.$patch({ user_name, user_account: data.account, user_role: data.roleName })
+          this.$patch({ user_name, user_account: data.account, user_role: data.roleName || data.role })
 
           resolve()
         }).catch(reject)

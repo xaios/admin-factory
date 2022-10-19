@@ -190,3 +190,20 @@ Load(index, sort, search) {
 <!-- 已进行全局注册，可直接使用，跟 NDataTable 一模一样 -->
 <g-table :loading='loading' :columns='columns' :data='data' />
 ```
+
+## 渲染组件
+
+把 VNode 数据渲染到模板上
+
+### Props
+
+| 名称 | 类型 | 默认值 | 说明 |
+| - | - | - | - |
+| vnode | VNode | undefined | 要渲染的 VNode 内容 |
+
+### 使用说明
+
+```html
+<!-- 已进行全局注册，可直接使用 -->
+<g-vnode :vnode='vnode' />
+```
