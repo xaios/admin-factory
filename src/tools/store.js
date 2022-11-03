@@ -1,5 +1,5 @@
+import { defineStore } from 'pinia'
 import { Get, Post } from '@root/tools/request'
-import { defineStore, mapState as mapStatePinia } from 'pinia'
 import { default as router, AddRoute, ResetRoute } from '@root/tools/route'
 
 import LANG from '@root/tools/language'
@@ -11,7 +11,7 @@ const TOKEN = `pomelo_token_${location.origin}`
 const USER_NAME = `pomelo_name_${location.origin}`
 const USER_ACCOUNT = `pomelo_account_${location.origin}`
 
-const STORE = defineStore('root', {
+export default defineStore('root', {
   state: () => ({
     env: ENV,
     lang: LANG,
@@ -63,9 +63,3 @@ const STORE = defineStore('root', {
     }
   }
 })
-
-export default STORE
-
-export function mapState(list) {
-  return mapStatePinia(STORE, list)
-}

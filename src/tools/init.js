@@ -2,9 +2,8 @@ import 'vue-cropper/dist/index.css'
 import '@root/style/index.styl'
 
 import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import { createPinia, mapState as mapStatePinia } from 'pinia'
 
-import Clipboard from 'clipboard'
 import VueCropper from 'vue-cropper'
 
 import route from '@root/tools/route'
@@ -61,3 +60,7 @@ app.config.globalProperties.$pager = (source, index, size = 20) => source.slice(
 app.use(route).use(VueCropper)
 
 export default app
+
+export function mapState(list) {
+  return mapStatePinia(useRootStore, list)
+}

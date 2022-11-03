@@ -33,11 +33,12 @@ this.$button({ onClick: () => {} }, '新建')
 // option = {
 //   cgi       String           状态变化时请求的接口地址
 //   id        String | Number  当前数据标识
+//   params    Object           额外参数
 //   value     Boolean          当前状态
 //   onUpdate  Function         数据更新后调用的方法
 // }
 
-this.$switch({ cgi: 'Demo/cgi', id: row.id, value: row.status == 1, onUpdate: this.ReLoad })
+this.$switch({ cgi: 'Demo/cgi', id: row.id, params: { type: 2 }, value: row.status == 1, onUpdate: this.ReLoad })
 ```
 
 ## 内容复制

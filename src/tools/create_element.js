@@ -1,6 +1,5 @@
 import { NTooltip, NButton, NIcon, NSwitch } from 'naive-ui'
 import { Post } from '@root/tools/request'
-import { ref } from 'vue'
 
 export function CreateButton(option, text) {
   let icon = option.icon, tips = option.tips
@@ -19,7 +18,7 @@ export function CreateSwitch(option) {
   option.rubberBand = false
   option.onUpdateValue = value => {
     node.component.props.loading = true
-    Post(option.cgi, { id: option.id }).then(() => {
+    Post(option.cgi, { id: option.id, ...option.params }).then(() => {
       node.component.props.loading = false
       option.onUpdate()
     }).catch(() => node.component.props.loading = false)

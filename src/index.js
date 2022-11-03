@@ -41,9 +41,9 @@ export default function(name) {
         transform: (code, id) => id.endsWith('.html') ? TransformHTML(code, root, config) : code
       },
       Vue(),
-      AutoImport({ imports: [{ vue: ['h', 'nextTick', 'markRaw'], '@root/tools/store': ['mapState'] }] }),
+      AutoImport({ imports: [{ vue: ['h', 'nextTick', 'markRaw'], '@root/tools/init': ['mapState'] }] }),
       Components({ resolvers: [NaiveUiResolver()] }),
-      Archiver({ name, origin: false, ignore_folder: [`src_!(${name})`] })
+      Archiver({ name, origin: false, result_pre: 'admin', ignore_folder: [`src_!(${name})`] })
     ]
   }
 }

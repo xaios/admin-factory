@@ -13,7 +13,7 @@
                 <n-date-picker v-model:value='model[n.name]' :clearable='!!n.clearable' :type="n.mode || 'date'" v-else-if="n.type == 'date'" />
                 <n-input v-model:value='model[n.name]' type='textarea' show-count :rows='5' :disabled='n.disabled' :maxlength='n.max' :placeholder='n.holder' v-else-if="n.type == 'textarea'" />
                 <n-input v-model:value='model[n.name]' type='password' show-password-on='click' :input-props="{ autocomplete: 'new-password' }" :placeholder='lang.holder' v-else-if="n.type == 'password'" />
-                <n-select v-model:value='model[n.name]' filterable :multiple='n.multiple' :options='n.list' v-else-if="n.type == 'select'" />
+                <n-select v-model:value='model[n.name]' filterable :clearable='n.clearable' :multiple='n.multiple' :options='n.list' v-else-if="n.type == 'select'" />
                 <n-switch v-model:value='model[n.name]' v-else-if="n.type == 'switch'" />
                 <n-dynamic-tags v-model:value='model[n.name]' v-else-if="n.type == 'tags'" />
                 <slot :name='n.name' v-else-if="n.type == 'slot'" />
