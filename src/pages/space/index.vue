@@ -115,7 +115,7 @@
           password_1: [{
             required: true,
             trigger: ['input', 'blur'],
-            validator: (rule, value) => {
+            validator: (_, value) => {
               return new Promise(async (resolve, reject) => {
                 let data = { old: this.form_config.password_0, new: value }
                 let result = this.$store.PasswordValidate ? await this.$store.PasswordValidate(data) : false
@@ -130,7 +130,7 @@
           password_2: [{
             required: true,
             trigger: ['input', 'blur'],
-            validator: (rule, value) => {
+            validator: (_, value) => {
               if (value != this.form_config.password_1)
                 return new Error(this.lang.password_diff)
               else
@@ -153,10 +153,10 @@
         if (option.link)
           return h('div', { class: 'f_vertically' }, [
             h('span', { style: { marginRight: '5px' } }, option.text),
-            h(NIcon, { size: 14 }, { default: () => h(IconOpen) })
+            h(NIcon, { size: 14 }, () => h(IconOpen))
           ])
         else if (option.path && !option.children)
-          return h(RouterLink, { to: option.path }, { default: () => option.text })
+          return h(RouterLink, { to: option.path }, () => option.text)
         else
           return option.text
       },

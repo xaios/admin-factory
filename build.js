@@ -15,4 +15,4 @@ if (await CheckStat(`src_${name}`)) process.exit()
 
 console.log('')
 
-build({ configFile: false, ...CreateConfig(name), build: { reportCompressedSize: false, chunkSizeWarningLimit: 2048 } })
+build({ configFile: false, ...CreateConfig(name, process.argv[3] == 'true'), build: { reportCompressedSize: false, chunkSizeWarningLimit: 2048 } })

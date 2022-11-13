@@ -14,7 +14,7 @@ function TransformHTML(html, root, config) {
   return html
 }
 
-export default function(name) {
+export default function(name, origin = false) {
   const root = `src_${name}`
   const config = JSON.parse(fs.readFileSync(`${root}/config/config.json`, 'utf-8'))
 
@@ -41,9 +41,9 @@ export default function(name) {
         transform: (code, id) => id.endsWith('.html') ? TransformHTML(code, root, config) : code
       },
       Vue(),
-      AutoImport({ imports: [{ vue: ['h', 'nextTick', 'markRaw'], '@root/tools/init': ['mapState'] }] }),
+      AutoImport({ imports: [{ vue: ['h', 'nextTick', 'markRaw'], '@root/tools/store': ['mapState'] }] }),
       Components({ resolvers: [NaiveUiResolver()] }),
-      Archiver({ name, origin: false, result_pre: 'admin', ignore_folder: [`src_!(${name})`] })
+      Archiver({ name, origin, result_pre: '_admin', origin_pre: '_origin', ignore_folder: ['repositories', `src_!(${name})`] })
     ]
   }
 }

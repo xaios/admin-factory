@@ -27,7 +27,7 @@
         }, {
           title: '是否可见',
           width: 100,
-          render: row => this.$switch({ cgi: 'HomePopUp/OnOffLine', id: row.id, value: row.status ==  1, onUpdate: this.ReLoad })
+          render: row => this.$switch({ cgi: 'HomePopUp/OnOffLine', id: row.id, value: row.status == 1, onUpdate: this.ReLoad })
         }, {
           title: '创建时间',
           width: 150,

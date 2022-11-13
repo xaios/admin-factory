@@ -65,7 +65,7 @@
         }, {
           title: '户型',
           key: 'apartment',
-          render: row => h(NSpace, { justify: 'center' }, { default: () => row.apartment.map(i => h(NTag, {}, { default: () => i })) })
+          render: row => h(NSpace, { justify: 'center' }, () => row.apartment.map(i => h(NTag, () => i)))
         }, {
           title: '建筑面积',
           key: 'houseArea'
@@ -78,7 +78,7 @@
         }, {
           title: '是否可见',
           width: 70,
-          render: row => this.$switch({ cgi: 'House/OnOffLine', id: row.id, value: row.status ==  1, onUpdate: this.ReLoad })
+          render: row => this.$switch({ cgi: 'House/OnOffLine', id: row.id, value: row.status == 1, onUpdate: this.ReLoad })
         }, {
           title: '操作',
           width: 70,

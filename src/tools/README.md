@@ -20,7 +20,7 @@ option 是 NButton 的 props：[查看文档](https://www.naiveui.com/zh-CN/os-t
 
 this.$button({ onClick: () => {} }, '新建')
 // 等价于
-// h(NButton, { type: 'primary', size: 'small', onClick: () => {} }, { default: () => '新建' })
+// h(NButton, { type: 'primary', size: 'small', onClick: () => {} }, () => '新建')
 ```
 
 ## 创建状态切换组件
@@ -52,6 +52,16 @@ this.$copy('1234567')
 this.$copy(123456789)
 this.$copy([1, 2, 3])
 this.$copy({ a: 23 })
+
+// 如果触发操作在 <n-modal /> 内，或提示成功实际无效，可尝试增加 DOM 参数
+// <div @click='Copy($event, 1)'></div>
+
+methods: {
+  Copy(e, text) {
+    // 会读取事件中的 currentTarget 使用
+    this.$copy(text, e)
+  }
+}
 ```
 
 ## 文件操作
@@ -174,6 +184,9 @@ this.$message.success(option)
 this.$message.warning(option)
 this.$message.loading(option)
 this.$message.destroyAll()
+
+// 返回一个 Promise，提供 message 对象，可对其调用销毁方法
+this.$message.info(option).then(message => message.destroy())
 ```
 
 ## 通知提示框

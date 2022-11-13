@@ -2,7 +2,7 @@ import 'vue-cropper/dist/index.css'
 import '@root/style/index.styl'
 
 import { createApp } from 'vue'
-import { createPinia, mapState as mapStatePinia } from 'pinia'
+import { createPinia } from 'pinia'
 
 import VueCropper from 'vue-cropper'
 
@@ -28,7 +28,7 @@ import component_editor from '@root/components/editor/index.vue'
 import component_image_picker from '@root/components/image-picker/index.vue'
 
 const app = createApp(main)
-app.use(createPinia())
+app.use(createPinia()).use(route).use(VueCropper)
 
 app.component('g-bar', component_bar)
 app.component('g-form', component_form)
@@ -57,10 +57,4 @@ app.config.globalProperties.$number = FormatNumber
 app.config.globalProperties.$switch = CreateSwitch
 app.config.globalProperties.$pager = (source, index, size = 20) => source.slice((index - 1) * size, index * size)
 
-app.use(route).use(VueCropper)
-
 export default app
-
-export function mapState(list) {
-  return mapStatePinia(useRootStore, list)
-}

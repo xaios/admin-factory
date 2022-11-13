@@ -88,7 +88,7 @@
               required: !!i.must,
               type: this.GetType(i),
               trigger: ['input', 'blur'],
-              validator: i.rule ? (rule, value) => i.rule(value, model) : undefined,
+              validator: i.rule ? (_, value) => i.rule(value, model) : undefined,
               message: i.rule ? undefined : `${i.type == 'select' ? this.lang.select : this.lang.input}${i.text}`
             }]
 

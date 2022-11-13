@@ -1,4 +1,4 @@
-const FormatNum = num => `${100 + num}`.slice(1)
+const FormatNum = num => String(num).padStart(2, '0')
 
 export function FormatTime(time, format = 'yyyy-MM-dd hh:mm:ss') {
   if (typeof format != 'string' || time == 0 || !time) return '--'
