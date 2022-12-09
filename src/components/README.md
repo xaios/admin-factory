@@ -128,6 +128,8 @@ this.$ref.form.Init([{
 
   // Check: model => Boolean     // 判断此表单项是否显示，model 为完整数据
 
+  // Change: (e, model, config)  // select 变更时调用，传入当前值、完整数据、表单配置，可实现选项状态联动
+
   // rule: (val, model) => {     // 指定 rule 可自定义校验，val 为当前值，model 为完整数据
   //   if (val.length < 6)
   //     return new Error('密码不得少于六位')

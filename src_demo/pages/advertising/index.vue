@@ -8,15 +8,13 @@
 </template>
 
 <script>
-  import { NImage } from 'naive-ui'
-
   export default {
     data() {
       return {
         list_hd: [{
           title: '图片',
           width: 150,
-          render: row => h(NImage, { width: 120, showToolbar: false, src: row.image })
+          render: row => this.$image(row.image)
         }, {
           title: '跳转类型',
           width: 100,

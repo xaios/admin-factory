@@ -1,4 +1,4 @@
-import { NTooltip, NButton, NIcon, NSwitch } from 'naive-ui'
+import { NTooltip, NButton, NIcon, NSwitch, NImage } from 'naive-ui'
 import { Post } from '@root/tools/request'
 
 export function CreateButton(option, text) {
@@ -27,4 +27,8 @@ export function CreateSwitch(option) {
   const node = h(NSwitch, option)
 
   return node
+}
+
+export function CreateImage(src, width = 120) {
+  return h(NImage, { width, src, showToolbar: false })
 }

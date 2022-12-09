@@ -57,7 +57,7 @@
     },
     methods: {
       ChooseImage() {
-        this.$image().then(file => {
+        this.$photo().then(file => {
           let src = URL.createObjectURL(file)
           this.image_map[src] = file
           this.editor.commands.setImage({ src })

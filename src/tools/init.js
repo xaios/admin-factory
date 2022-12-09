@@ -15,7 +15,7 @@ import Preload from '@root/tools/preload'
 import ChooseImage from '@root/tools/image'
 import { Get, Post, Upload } from '@root/tools/request'
 import { FormatTime, FormatNumber } from '@root/tools/format'
-import { CreateButton, CreateSwitch } from '@root/tools/create_element'
+import { CreateButton, CreateSwitch, CreateImage } from '@root/tools/create_element'
 import { Loading, Notice, Dialog, Message, ContextMenu, BackTop } from '@root/tools/operate'
 
 import main from '@root/pages/container/index.vue'
@@ -49,7 +49,8 @@ app.config.globalProperties.$backtop = BackTop
 app.config.globalProperties.$preload = Preload
 app.config.globalProperties.$time = FormatTime
 app.config.globalProperties.$menu = ContextMenu
-app.config.globalProperties.$image = ChooseImage
+app.config.globalProperties.$photo = ChooseImage
+app.config.globalProperties.$image = CreateImage
 app.config.globalProperties.$store_root = useRootStore()
 app.config.globalProperties.$store = useSelfStore()
 app.config.globalProperties.$button = CreateButton

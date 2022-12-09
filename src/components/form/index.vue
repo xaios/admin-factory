@@ -10,10 +10,10 @@
                 <g-editor v-model:value='model[n.name]' :placeholder='n.placeholder || `${lang.input}${n.text}`' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type == 'editor'" />
                 <g-image-picker v-model:value='model[n.name]' :crop='n.crop' :width='n.width' :height='n.height' :readonly='n.readonly' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type == 'image'" />
                 <n-rate v-model:value='model[n.name]' v-else-if="n.type == 'rate'" />
-                <n-date-picker v-model:value='model[n.name]' :clearable='!!n.clearable' :type="n.mode || 'date'" v-else-if="n.type == 'date'" />
+                <n-date-picker v-model:value='model[n.name]' close-on-select :clearable='!!n.clearable' :type="n.mode || 'date'" v-else-if="n.type == 'date'" />
                 <n-input v-model:value='model[n.name]' type='textarea' show-count :rows='5' :disabled='n.disabled' :maxlength='n.max' :placeholder='n.holder' v-else-if="n.type == 'textarea'" />
                 <n-input v-model:value='model[n.name]' type='password' show-password-on='click' :input-props="{ autocomplete: 'new-password' }" :placeholder='lang.holder' v-else-if="n.type == 'password'" />
-                <n-select v-model:value='model[n.name]' filterable :clearable='n.clearable' :multiple='n.multiple' :options='n.list' v-else-if="n.type == 'select'" />
+                <n-select v-model:value='model[n.name]' filterable :clearable='n.clearable' :multiple='n.multiple' :options='n.list' @update:value='n.Change' v-else-if="n.type == 'select'" />
                 <n-switch v-model:value='model[n.name]' v-else-if="n.type == 'switch'" />
                 <n-dynamic-tags v-model:value='model[n.name]' v-else-if="n.type == 'tags'" />
                 <slot :name='n.name' v-else-if="n.type == 'slot'" />
@@ -81,6 +81,11 @@
         list.forEach(item => {
           let i = Object.assign({}, this.map_preset[item.preset] || {}, item)
 
+          i.Change = e => {
+            if (!item.Change) return
+            item.Change(e, this.model, this.config.map(i => i.list).flat())
+          }
+
           config[i.grid || 0].list.push(i)
 
           if (i.rule || i.must)
@@ -94,6 +99,8 @@
 
           if (i.type == 'number')
             model[i.name] = isNaN(+i.value) ? null : +i.value
+          else if (i.type == 'date' && i.mode.includes('range'))
+            model[i.name] = i.value || undefined
           else if (i.type != 'slot')
             model[i.name] = i.value === undefined ? i.type == 'switch' ? false : i.type == 'select' ? i.multiple ? [] : undefined : '' : i.value
           else if (i.must)
@@ -117,6 +124,8 @@
         else if (item.type == 'select' && typeof item.list[0].value == 'number')
           return 'number'
         else if (item.multiple || Array.isArray(item.value))
+          return 'array'
+        else if (item.type == 'date' && item.mode.includes('range'))
           return 'array'
         else
           return 'string'
@@ -162,3 +171,8 @@
     }
   }
 </script>
+
+<style scoped lang='stylus'>
+  .form_content:deep(.n-scrollbar-content)
+    padding 2px 2px 0 0
+</style>

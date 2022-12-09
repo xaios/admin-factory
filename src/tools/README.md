@@ -19,8 +19,7 @@ option 是 NButton 的 props：[查看文档](https://www.naiveui.com/zh-CN/os-t
 // text    String  按钮文本
 
 this.$button({ onClick: () => {} }, '新建')
-// 等价于
-// h(NButton, { type: 'primary', size: 'small', onClick: () => {} }, () => '新建')
+// 等价于 h(NButton, { type: 'primary', size: 'small', onClick: () => {} }, () => '新建')
 ```
 
 ## 创建状态切换组件
@@ -39,6 +38,15 @@ this.$button({ onClick: () => {} }, '新建')
 // }
 
 this.$switch({ cgi: 'Demo/cgi', id: row.id, params: { type: 2 }, value: row.status == 1, onUpdate: this.ReLoad })
+```
+
+## 创建图片组件
+
+通常在表格中使用，简化创建的图片创建操作。
+
+```javascript
+this.$image(src, width = 120) // 宽度默认 120px
+// 等价于 h(NImage, { showToolbar: false, src, width })
 ```
 
 ## 内容复制
@@ -112,16 +120,16 @@ this.$number(100000000)
 可以直接选择文件，也可以裁剪指定比例，或单纯裁剪，返回一个文件对象。
 
 ```javascript
-// this.$image = (width: Number | undefined, height: Number | undefined, is_crop: Boolean) => File
+// this.$photo = (width: Number | undefined, height: Number | undefined, is_crop: Boolean) => File
 
 // 直接选择图片
-this.$image().then(file => {})
+this.$photo().then(file => {})
 
 // 指定比例裁剪图片
-this.$image(100, 200).then(file => {})
+this.$photo(100, 200).then(file => {})
 
 // 任意裁剪图片
-this.$image(null, null, true).then(file => {})
+this.$photo(null, null, true).then(file => {})
 ```
 
 ## JSON 格式判断

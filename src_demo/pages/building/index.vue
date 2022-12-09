@@ -39,14 +39,15 @@
 </template>
 
 <script>
-  import { NImage, NTag, NSpace } from 'naive-ui'
+  import { NTag, NSpace } from 'naive-ui'
 
   export default {
     data() {
       return {
         list_hd: [{
           title: '列表图片',
-          render: row => h(NImage, { width: 80, showToolbar: false, src: row.listCover })
+          width: 100,
+          render: row => this.$image(row.listCover, 80)
         }, {
           title: '楼盘名称',
           key: 'name'

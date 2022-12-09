@@ -63,8 +63,12 @@ function FormatHead(column, name) {
   })
 }
 
+function FormatData(data) {
+  return `"${String(data).replace(/"/g, '""')}"`
+}
+
 export function ExportCsv(option) {
   head = []
   FormatHead(option.head, [])
-  ExportText(`${option.name}.csv`, [head.map(i => i.title).join(','), ...option.list.map(i => head.map(n => i[n.key]).join(','))].join('\r\n'))
+  ExportText(`${option.name}.csv`, [head.map(i => i.title), ...option.list.map(i => head.map(n => i[n.key]))].map(i => i.map(FormatData).join(',')).join('\r\n'))
 }

@@ -58,7 +58,7 @@
     methods: {
       async ChooseImage(index) {
         if (this.readonly) return
-        let file = await this.$image(this.width, this.height, this.crop)
+        let file = await this.$photo(this.width, this.height, this.crop)
         file && this.AddItem(file, index)
       },
       AddItem(file, index) {
