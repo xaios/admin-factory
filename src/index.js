@@ -41,7 +41,7 @@ export default function(name, origin = false) {
         transform: (code, id) => id.endsWith('.html') ? TransformHTML(code, root, config) : code
       },
       Vue(),
-      AutoImport({ imports: [{ vue: ['h', 'nextTick', 'markRaw'], '@root/tools/store': ['mapState'] }] }),
+      AutoImport({ imports: [{ vue: ['h', 'nextTick', 'markRaw'] }] }),
       Components({ resolvers: [NaiveUiResolver()] }),
       Archiver({ name, origin, result_pre: '_admin', origin_pre: '_origin', ignore_folder: ['repositories', `src_!(${name})`] })
     ]

@@ -84,7 +84,7 @@ router.beforeEach(async (to, from) => {
 })
 
 export function AddRoute(role) {
-  CONFIG_ROLE[role].route.map(i => router.addRoute(i))
+  CONFIG_ROLE[role].route.forEach(i => router.addRoute(i))
   useRootStore().$patch({
     menu: CONFIG_ROLE[role].menus,
     menu_route: CONFIG_ROLE[role].route,

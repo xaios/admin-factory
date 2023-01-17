@@ -81,9 +81,9 @@
         list.forEach(item => {
           let i = Object.assign({}, this.map_preset[item.preset] || {}, item)
 
-          i.Change = e => {
+          i.Change = (_, option) => {
             if (!item.Change) return
-            item.Change(e, this.model, this.config.map(i => i.list).flat())
+            item.Change(option, this.model, this.config.map(i => i.list).flat())
           }
 
           config[i.grid || 0].list.push(i)
@@ -99,7 +99,7 @@
 
           if (i.type == 'number')
             model[i.name] = isNaN(+i.value) ? null : +i.value
-          else if (i.type == 'date' && i.mode.includes('range'))
+          else if (i.type == 'date' && (i.mode || '').includes('range'))
             model[i.name] = i.value || undefined
           else if (i.type != 'slot')
             model[i.name] = i.value === undefined ? i.type == 'switch' ? false : i.type == 'select' ? i.multiple ? [] : undefined : '' : i.value
@@ -125,7 +125,7 @@
           return 'number'
         else if (item.multiple || Array.isArray(item.value))
           return 'array'
-        else if (item.type == 'date' && item.mode.includes('range'))
+        else if (item.type == 'date' && (item.mode || '').includes('range'))
           return 'array'
         else
           return 'string'

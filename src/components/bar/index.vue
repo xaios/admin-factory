@@ -7,7 +7,7 @@
       <slot name='right' />
     </div>
     <n-input-group style='width: auto;' v-if='filter'>
-      <n-select style='width: 200px;margin-right: 10px;' :options='sortList' v-model:value='sort' @update:value='ReLoad' v-if='sortList' />
+      <n-select style='width: 200px;margin-right: 10px;' filterable :options='sortList' v-model:value='sort' @update:value='ReLoad' v-if='sortList' />
       <n-input style='width: 200px;' :placeholder='lang.search_input' v-model:value='search' @keyup.enter='ReLoad' />
       <n-button type='primary' @click='ReLoad'>{{lang.search}}</n-button>
     </n-input-group>

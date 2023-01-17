@@ -66,6 +66,4 @@ const STORE = defineStore('root', {
 
 export default STORE
 
-export function mapState(list) {
-  return mapStatePinia(STORE, list)
-}
+window.mapState = list => mapStatePinia(STORE, list)

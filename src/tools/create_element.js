@@ -15,7 +15,7 @@ export function CreateButton(option, text) {
 }
 
 export function CreateSwitch(option) {
-  option.rubberBand = false
+  option.rubberBand = option.rubberBand || false
   option.onUpdateValue = value => {
     node.component.props.loading = true
     Post(option.cgi, { id: option.id, ...option.params }).then(() => {

@@ -58,7 +58,9 @@ export default {
 export default defineStore('self', {
   state: () => ({
     // 可以定义一个名为 copyright 的 VNode，将渲染在登录页页脚部分
-    copyright: h('div', 'copyright')
+    copyright: h('div', 'copyright'),
+    // 可以定义图片选择大小，单位为 B，默认 2MB，设置 -1 跳过校验
+    max_size: -1
   }),
   actions: {
     // 可以使用 async，也可以返回 Promise，数据返回必须使用 resolve

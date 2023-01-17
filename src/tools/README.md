@@ -35,6 +35,7 @@ this.$button({ onClick: () => {} }, '新建')
 //   params    Object           额外参数
 //   value     Boolean          当前状态
 //   onUpdate  Function         数据更新后调用的方法
+//   ...       Any              其它 NSwitch 支持的配置项
 // }
 
 this.$switch({ cgi: 'Demo/cgi', id: row.id, params: { type: 2 }, value: row.status == 1, onUpdate: this.ReLoad })
