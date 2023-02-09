@@ -48,7 +48,7 @@ function FormatRoute(list) {
 
 const CONFIG_ROLE = {}
 Object.keys(CONFIG).forEach(i => {
-  if (i[0] != '_')
+  if (i[0] !== '_')
     CONFIG_ROLE[i] = { menus: FormatMenus(CONFIG[i]), route: FormatRoute(CONFIG[i]) }
 })
 
@@ -56,7 +56,7 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes: [
     ...(CONFIG._route || []).map(i => ({ path: `/${i.name}`, component: PAGES[`pages/${i.name}/index.vue`] })),
-    { path: '/index', component: () => import('@self/index/index.vue') },
+    { path: '/index', component: PAGES[`pages/index/index.vue`] || (() => import('@root/pages/index/index.vue')) },
     { path: '/login', component: () => import('@root/pages/login/index.vue') },
     { path: '/space', name: 'space', meta: { auth: true }, component: COMPONENT_SPACE }
   ]
@@ -73,13 +73,13 @@ router.beforeEach(async (to, from) => {
       return false
     }
 
-  if (!to.matched.length || (to.path == '/login' && localStorage[TOKEN]))
+  if (!to.matched.length || (to.path === '/login' && localStorage[TOKEN]))
     return '/index'
 
   if (to.meta.auth && !localStorage[TOKEN])
     return '/login'
 
-  if (to.fullPath == from.fullPath)
+  if (to.fullPath === from.fullPath)
     return false
 })
 

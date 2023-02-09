@@ -25,7 +25,7 @@
         }, {
           title: '是否可见',
           width: 100,
-          render: row => this.$switch({ cgi: 'HomePopUp/OnOffLine', id: row.id, value: row.status == 1, onUpdate: this.ReLoad })
+          render: row => this.$switch({ cgi: 'HomePopUp/OnOffLine', id: row.id, value: row.status === 1, onUpdate: this.ReLoad })
         }, {
           title: '创建时间',
           width: 150,
@@ -73,21 +73,21 @@
           text: '跳转楼盘',
           type: 'select',
           list: building_data.map(i => ({ label: i.name, value: i.id })),
-          Check: model => model.type == 2,
+          Check: model => model.type === 2,
           must: true,
-          value: row.type == 2 ? row.infoId : undefined
+          value: row.type === 2 ? row.infoId : undefined
         }, {
           name: 'infoId3',
           text: '跳转文章',
           type: 'select',
           list: article_data.map(i => ({ label: i.title, value: i.id })),
-          Check: model => model.type == 3,
+          Check: model => model.type === 3,
           must: true,
-          value: row.type == 3 ? row.infoId : undefined
+          value: row.type === 3 ? row.infoId : undefined
         }, {
           name: 'url',
           text: '文章地址',
-          Check: model => model.type == 4,
+          Check: model => model.type === 4,
           must: true,
           value: row.url
         }, {
@@ -116,8 +116,8 @@
           id: this.form_id,
           image: data.image,
           type: data.type,
-          infoId: data.type == 2 ? data.infoId2 : data.type == 3 ? data.infoId3 : undefined,
-          url: data.type == 4 ? data.url : undefined,
+          infoId: data.type === 2 ? data.infoId2 : data.type === 3 ? data.infoId3 : undefined,
+          url: data.type === 4 ? data.url : undefined,
           startTime: this.$time(data.time[0]),
           endTime: this.$time(data.time[1])
         }).then(data => {

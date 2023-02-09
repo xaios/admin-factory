@@ -1,19 +1,15 @@
-import fs from 'node:fs'
 import { createServer } from 'vite'
+import { stat } from 'node:fs/promises'
 import CreateConfig from './src/index.js'
 
-const name = process.argv[2].startsWith('src_') ? process.argv[2].slice(4) : process.argv[2]
+const path = process.argv[2].startsWith('src_') ? process.argv[2] : `src_${process.argv[2]}`
 
-function CheckStat(path) {
-  return new Promise(resolve => fs.stat(path, e => {
-    e && console.log(`\n  指定目录不存在：${path}\n`)
-    resolve(e)
-  }))
+if (!await stat(path).catch(() => {})) {
+  console.log(`\n  项目目录不存在：${path}\n`)
+  process.exit()
 }
 
-if (await CheckStat(`src_${name}`)) process.exit()
-
-const config = CreateConfig(name)
+const config = CreateConfig(path.slice(4))
 config.server.host = true
 
 const server = await createServer({ configFile: false, ...config })

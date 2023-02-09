@@ -38,7 +38,7 @@ this.$button({ onClick: () => {} }, '新建')
 //   ...       Any              其它 NSwitch 支持的配置项
 // }
 
-this.$switch({ cgi: 'Demo/cgi', id: row.id, params: { type: 2 }, value: row.status == 1, onUpdate: this.ReLoad })
+this.$switch({ cgi: 'Demo/cgi', id: row.id, params: { type: 2 }, value: row.status === 1, onUpdate: this.ReLoad })
 ```
 
 ## 创建图片组件

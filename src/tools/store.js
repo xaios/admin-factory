@@ -27,7 +27,7 @@ const STORE = defineStore('root', {
     PasswordValidate(data) {
       if (data.new.length < 6)
         return new Error(data.new ? LANG.password_size : LANG.password_new)
-      else if (data.new == data.old)
+      else if (data.new === data.old)
         return new Error(LANG.password_same)
       else
         return true

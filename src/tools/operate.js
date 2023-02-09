@@ -25,10 +25,10 @@ export const Notice = new Proxy({}, {
 
 function DialogHandle(type, config = {}) {
   return new Promise((resolve, reject) => {
-    let content = typeof config == 'string' ? config : config.content
-    config = typeof config == 'string' ? { content } : config
+    let content = typeof config === 'string' ? config : config.content
+    config = typeof config === 'string' ? { content } : config
 
-    if (type == 'confirm') {
+    if (type === 'confirm') {
       type = 'warning'
       config.text_0 = config.text_0 || LANG.cancel
     }
@@ -49,8 +49,8 @@ export const Dialog = new Proxy({}, {
 
 function MessageHandle(type, config = {}) {
   return new Promise(resolve => {
-    let content = typeof config == 'string' ? config : config.content
-    config = typeof config == 'string' ? {} : config
+    let content = typeof config === 'string' ? config : config.content
+    config = typeof config === 'string' ? {} : config
 
     config.duration = config.duration ?? (config.closable ? 0 : 5000)
 

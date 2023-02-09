@@ -7,22 +7,22 @@ const Request = axios.create({ timeout: 30000, baseURL: '/api' })
 
 Request.interceptors.response.use(res => {
   res = res.data
-  if (res.code == 0) {
+  if (res.code === 0) {
     return res.data
-  } else if (res.code == 1) {
+  } else if (res.code === 1) {
     Message.error({ content: `${LANG.cgi_error}，${LANG.error_msg}：${res.message || LANG.nothing}`, closable: true })
     Loading.hide()
     return Promise.reject()
-  } else if (res.code == 2) {
+  } else if (res.code === 2) {
     Dialog.error({ title: LANG.cgi_error, content: res.message || LANG.no_error })
     Loading.hide()
     return Promise.reject()
-  } else if (res.code == 3) {
+  } else if (res.code === 3) {
     useRootStore().UserLogout()
     return Promise.reject()
   }
 }, e => {
-  if (e.response && e.response.status == 401)
+  if (e.response && e.response.status === 401)
     useRootStore().UserLogout()
   else if (e.response)
     Dialog.error({ title: LANG.network_error, content: `${LANG.state_info}：${e.response.status}` })

@@ -68,21 +68,21 @@
           text: this.lang.config_content,
           must: true,
           value: row.value,
-          Check: model => model.type == 1
+          Check: model => model.type === 1
         }, {
           name: 'value_2',
           text: this.lang.config_content,
           type: 'editor',
           must: true,
           value: row.value,
-          Check: model => model.type == 2
+          Check: model => model.type === 2
         }, {
           name: 'value_3',
           text: this.lang.config_content,
           type: 'image',
           must: true,
           value: row.value,
-          Check: model => model.type == 3
+          Check: model => model.type === 3
         }])
 
         this.form_id = row.id

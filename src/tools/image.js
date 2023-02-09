@@ -12,10 +12,10 @@ export default function(width, height, is_crop) {
     input.onchange = () => {
       let file = input.files[0]
 
-      if (file.type != 'image/jpeg' && file.type != 'image/png') {
+      if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
         Message.warning(LANG.upload_format)
         resolve()
-      } else if (max != -1 && file.size > max) {
+      } else if (max !== -1 && file.size > max) {
         Message.warning(LANG.upload_max_size)
         resolve()
       } else if (width || is_crop) {

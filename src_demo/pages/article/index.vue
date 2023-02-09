@@ -21,7 +21,7 @@
         }, {
           title: '是否可见',
           width: 150,
-          render: row => this.$switch({ cgi: 'Article/OnOffLine', id: row.id, value: row.status == 1, onUpdate: this.ReLoad })
+          render: row => this.$switch({ cgi: 'Article/OnOffLine', id: row.id, value: row.status === 1, onUpdate: this.ReLoad })
         }, {
           title: '操作',
           width: 150,

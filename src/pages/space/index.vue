@@ -131,7 +131,7 @@
             required: true,
             trigger: ['input', 'blur'],
             validator: (_, value) => {
-              if (value != this.form_config.password_1)
+              if (value !== this.form_config.password_1)
                 return new Error(this.lang.password_diff)
               else
                 return true
@@ -191,17 +191,17 @@
         this.$dialog.confirm({ content: this.lang.sure_logout }).then(() => this.$store_root.UserLogout())
       },
       ChooseTab(path) {
-        this.$route.fullPath != path && this.$router.replace(path)
+        this.$route.fullPath !== path && this.$router.replace(path)
       },
       RemoveTab(name) {
-        let index = this.tabs.findIndex(i => i.path == name)
+        let index = this.tabs.findIndex(i => i.path === name)
         this.tabs.splice(index, 1)
 
         this.is_removed = true
-        this.page == name && this.ChooseTab(!this.tabs.length ? '/space' : this.tabs[index == 0 ? 0 : index - 1].path)
+        this.page === name && this.ChooseTab(!this.tabs.length ? '/space' : this.tabs[index ? index - 1 : 0].path)
       },
       FocusMenu(name) {
-        let menu = this.menu.find(i => i.key == name)
+        let menu = this.menu.find(i => i.key === name)
         if (menu) {
           if (menu.children && !this.menu_opened.includes(menu.key))
             this.menu_opened.push(menu.key)
@@ -209,7 +209,7 @@
           return menu.children ? menu.children[0].key : name
         }
 
-        menu = this.menu.find(i => i.children && i.children.some(i => i.key == name))
+        menu = this.menu.find(i => i.children && i.children.some(i => i.key === name))
         if (!menu) return ''
 
         if (!this.menu_opened.includes(menu.key))
@@ -222,14 +222,14 @@
         this.page = page.fullPath
 
         if (page.meta.name) {
-          let item = this.tabs.find(i => i.name == page.meta.name)
+          let item = this.tabs.find(i => i.name === page.meta.name)
           if (item)
             item.path = page.fullPath
           else
             this.tabs.push({ name: page.meta.name, text: page.meta.text, path: page.fullPath })
-        } else if (page.name == 'space' && this.tabs.length) {
+        } else if (page.name === 'space' && this.tabs.length) {
           this.ChooseTab(this.tabs[0].path)
-        } else if (page.name == 'space' && !this.is_removed) {
+        } else if (page.name === 'space' && !this.is_removed) {
           this.ChooseTab(this.menu.length ? this.menu[0].path : this.menu_route[0].path)
         }
 

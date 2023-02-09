@@ -2,7 +2,7 @@ import ClipboardJS from 'clipboard'
 import { Message } from '@root/tools/operate'
 
 export default function(text, e) {
-  text = typeof text == 'string' ? text : JSON.stringify(text)
+  text = typeof text === 'string' ? text : JSON.stringify(text)
 
   let node = document.createElement('button')
   let temp = new ClipboardJS(node, { container: e?.currentTarget, text: () => text })

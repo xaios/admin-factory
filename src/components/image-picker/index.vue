@@ -39,7 +39,7 @@
     computed: {
       ...mapState(['lang']),
       is_single() {
-        return typeof this.value == 'string'
+        return typeof this.value === 'string'
       }
     },
     watch: {
@@ -64,7 +64,7 @@
       AddItem(file, index) {
         let src = URL.createObjectURL(file)
 
-        if (index == this.list.length - 1)
+        if (index === this.list.length - 1)
           this.list.splice(this.list.length - 1, 0, src)
         else
           this.list[index] = src
@@ -86,7 +86,7 @@
         })
 
         this.list.forEach(async (i, index) => {
-          if (i && i[0] != 'h')
+          if (i && i[0] !== 'h')
             this.list[index] = await this.$upload(this.image_map[i])
 
           Load()

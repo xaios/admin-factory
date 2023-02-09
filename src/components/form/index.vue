@@ -6,18 +6,18 @@
           <n-scrollbar style='padding-right: 14px;' :style="{ maxHeight: full ? 'calc(100vh - 112px)' : '' }">
             <template v-for='n in item.list'>
               <n-form-item :label='n.text' :path='n.name' v-if='!n.Check || n.Check(model)' :ref='n.name'>
-                <n-input-number v-model:value='model[n.name]' :show-button='n.button || false' :min='n.min' :max='n.max' :precision='n.fixed' :placeholder='n.holder' v-if="n.type == 'number'" />
-                <g-editor v-model:value='model[n.name]' :placeholder='n.placeholder || `${lang.input}${n.text}`' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type == 'editor'" />
-                <g-image-picker v-model:value='model[n.name]' :crop='n.crop' :width='n.width' :height='n.height' :readonly='n.readonly' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type == 'image'" />
-                <n-rate v-model:value='model[n.name]' v-else-if="n.type == 'rate'" />
-                <n-date-picker v-model:value='model[n.name]' close-on-select :clearable='!!n.clearable' :type="n.mode || 'date'" v-else-if="n.type == 'date'" />
-                <n-input v-model:value='model[n.name]' type='textarea' show-count :rows='5' :disabled='n.disabled' :maxlength='n.max' :placeholder='n.holder' v-else-if="n.type == 'textarea'" />
-                <n-input v-model:value='model[n.name]' type='password' show-password-on='click' :input-props="{ autocomplete: 'new-password' }" :placeholder='lang.holder' v-else-if="n.type == 'password'" />
-                <n-select v-model:value='model[n.name]' filterable :clearable='n.clearable' :multiple='n.multiple' :options='n.list' @update:value='n.Change' v-else-if="n.type == 'select'" />
-                <n-switch v-model:value='model[n.name]' v-else-if="n.type == 'switch'" />
-                <n-dynamic-tags v-model:value='model[n.name]' v-else-if="n.type == 'tags'" />
-                <slot :name='n.name' v-else-if="n.type == 'slot'" />
-                <span v-else-if="n.type == 'text'">{{`${model[n.name]}` || lang.nothing}}</span>
+                <n-input-number v-model:value='model[n.name]' :show-button='n.button || false' :min='n.min' :max='n.max' :precision='n.fixed' :placeholder='n.holder' v-if="n.type === 'number'" />
+                <g-editor v-model:value='model[n.name]' :placeholder='n.placeholder || `${lang.input}${n.text}`' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type === 'editor'" />
+                <g-image-picker v-model:value='model[n.name]' :crop='n.crop' :width='n.width' :height='n.height' :readonly='n.readonly' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type === 'image'" />
+                <n-rate v-model:value='model[n.name]' v-else-if="n.type === 'rate'" />
+                <n-date-picker v-model:value='model[n.name]' close-on-select :clearable='!!n.clearable' :type="n.mode || 'date'" v-else-if="n.type === 'date'" />
+                <n-input v-model:value='model[n.name]' type='textarea' show-count :rows='5' :disabled='n.disabled' :maxlength='n.max' :placeholder='n.holder' v-else-if="n.type === 'textarea'" />
+                <n-input v-model:value='model[n.name]' type='password' show-password-on='click' :input-props="{ autocomplete: 'new-password' }" :placeholder='lang.holder' v-else-if="n.type === 'password'" />
+                <n-select v-model:value='model[n.name]' filterable :clearable='n.clearable' :multiple='n.multiple' :options='n.list' @update:value='n.Change' v-else-if="n.type === 'select'" />
+                <n-switch v-model:value='model[n.name]' v-else-if="n.type === 'switch'" />
+                <n-dynamic-tags v-model:value='model[n.name]' v-else-if="n.type === 'tags'" />
+                <slot :name='n.name' v-else-if="n.type === 'slot'" />
+                <span v-else-if="n.type === 'text'">{{`${model[n.name]}` || lang.nothing}}</span>
                 <n-input v-model:value='model[n.name]' separator='-' :pair='n.pair' :disabled='n.disabled' :placeholder='n.holder' v-else />
               </n-form-item>
             </template>
@@ -94,15 +94,15 @@
               type: this.GetType(i),
               trigger: ['input', 'blur'],
               validator: i.rule ? (_, value) => i.rule(value, model) : undefined,
-              message: i.rule ? undefined : `${i.type == 'select' ? this.lang.select : this.lang.input}${i.text}`
+              message: i.rule ? undefined : `${i.type === 'select' ? this.lang.select : this.lang.input}${i.text}`
             }]
 
-          if (i.type == 'number')
+          if (i.type === 'number')
             model[i.name] = isNaN(+i.value) ? null : +i.value
-          else if (i.type == 'date' && (i.mode || '').includes('range'))
+          else if (i.type === 'date' && (i.mode || '').includes('range'))
             model[i.name] = i.value || undefined
-          else if (i.type != 'slot')
-            model[i.name] = i.value === undefined ? i.type == 'switch' ? false : i.type == 'select' ? i.multiple ? [] : undefined : '' : i.value
+          else if (i.type !== 'slot')
+            model[i.name] = i.value === undefined ? i.type === 'switch' ? false : i.type === 'select' ? i.multiple ? [] : undefined : '' : i.value
           else if (i.must)
             model[i.name] = 'value'
         })
@@ -117,15 +117,15 @@
         this.show = false
       },
       GetType(item) {
-        if (typeof item.value == 'number' || item.type == 'number')
+        if (typeof item.value === 'number' || item.type === 'number')
           return 'number'
-        else if (item.type == 'switch')
+        else if (item.type === 'switch')
           return 'boolean'
-        else if (item.type == 'select' && typeof item.list[0].value == 'number')
+        else if (item.type === 'select' && typeof item.list[0].value === 'number')
           return 'number'
         else if (item.multiple || Array.isArray(item.value))
           return 'array'
-        else if (item.type == 'date' && (item.mode || '').includes('range'))
+        else if (item.type === 'date' && (item.mode || '').includes('range'))
           return 'array'
         else
           return 'string'
@@ -134,20 +134,20 @@
         this.$refs[name][0].validate()
       },
       Uploaded() {
-        if (++this.load != this.load_need) return
+        if (++this.load !== this.load_need) return
         this.EmitSubmit()
         this.$spin.hide()
       },
       Submit() {
         this.list.forEach(i => {
-          if (typeof this.model[i.name] == 'string')
+          if (typeof this.model[i.name] === 'string')
             this.model[i.name] = this.model[i.name].trim()
         })
 
         this.$refs.model.validate(err => {
           if (err) return this.$message.warning(this.lang.check_error)
 
-          let list = this.list.filter(i => (i.type == 'image' || i.type == 'editor') && (!i.Check || i.Check(this.model)))
+          let list = this.list.filter(i => (i.type === 'image' || i.type === 'editor') && (!i.Check || i.Check(this.model)))
 
           if (list.length) {
             this.$spin.show()
@@ -162,7 +162,7 @@
       EmitSubmit() {
         let data = JSON.parse(JSON.stringify(this.model))
         this.list.forEach(i => {
-          if (i.type == 'slot')
+          if (i.type === 'slot')
             delete data[i.name]
         })
 

@@ -43,22 +43,28 @@
 
 # 主要目录结构
 
-- src，项目基础文件内容，私有文件内容建议与其子目录结构一致
-  - components，全局组件目录，具体说明在目录内的 README.md 中
-  - image，全局图片目录
-  - pages，框架页面与登录页面
-  - style，全局样式
-  - tools，全局工具函数，包括项目初始化与路由初始化等内容，具体说明在目录内的 README.md 中
-  - index.js，是 vite.config.js 的生成逻辑
-- src_${name}，具体后台的私有文件
-  - config，后台配置内容，具体说明在目录内的 README.md 中
-    - config.json，后台基础配置
-    - language.js，私有语言包配置
-    - route.js，路由与菜单配置
-    - store.js，后台数据库配置
-  - index，后台首页
-  - pages，后台页面内容，具体使用方法参考其中的代码即可
-  - index.js，后台初始化方法，可以在这里注册一些全局方法或组件
-- build.js，启动构建
-- serve.js，启动开发服务器
-- index.html，项目入口模板
+```
+.
+├─ src，项目基础文件内容，私有文件内容建议与其子目录结构一致
+│  ├─ components，全局组件目录，具体说明在目录内的 README.md 中
+│  ├─ image，全局图片目录
+│  ├─ pages，框架页面、登录页面、系统首页（默认跳至管理页面）
+│  ├─ style，全局样式
+│  ├─ tools，全局工具函数，包括项目初始化与路由初始化等内容，具体说明在目录内的 README.md 中
+│  └─ index.js，生成 vite.config.js 的逻辑
+│
+├─ src_${name}，具体后台的私有文件
+│  ├─ config，后台配置内容，具体说明在目录内的 README.md 中
+│  │  ├─ config.json，后台基础配置
+│  │  ├─ language.js，私有语言包配置
+│  │  ├─ route.js，路由与菜单配置
+│  │  └─ store.js，后台数据库配置
+│  │
+│  ├─ pages，后台页面内容，具体使用方法可以参考其中的代码
+│  │  └─ index，首页，当此目录缺失时会使用基础目录中的首页，404 会重定向至此
+│  └─ index.js，后台初始化方法，可以在这里注册一些全局方法或组件
+│
+├─ build.js，启动构建
+├─ serve.js，启动开发服务器
+└─ index.html，项目入口模板
+```

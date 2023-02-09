@@ -1,12 +1,12 @@
 const FormatNum = num => String(num).padStart(2, '0')
 
 export function FormatTime(time, format = 'yyyy-MM-dd hh:mm:ss') {
-  if (typeof format != 'string' || time == 0 || !time) return '--'
+  if (typeof format !== 'string' || !time) return '--'
 
   let time_num = +time
 
   if (isNaN(time_num)) {
-    let temp = new Date(typeof time == 'string' ? time.replace(/-/g, '/') : time)
+    let temp = new Date(typeof time === 'string' ? time.replace(/-/g, '/') : time)
     if (isNaN(+temp)) {
       time = new Date(time)
       if (isNaN(+time)) return '--'

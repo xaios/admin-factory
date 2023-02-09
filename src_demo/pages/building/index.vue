@@ -79,7 +79,7 @@
         }, {
           title: '是否可见',
           width: 70,
-          render: row => this.$switch({ cgi: 'House/OnOffLine', id: row.id, value: row.status == 1, onUpdate: this.ReLoad })
+          render: row => this.$switch({ cgi: 'House/OnOffLine', id: row.id, value: row.status === 1, onUpdate: this.ReLoad })
         }, {
           title: '操作',
           width: 70,
@@ -253,7 +253,7 @@
         this.Load(this.list_index)
       },
       Uploaded() {
-        ++this.load == this.load_need && this.Submit(this.save_data)
+        ++this.load === this.load_need && this.Submit(this.save_data)
       },
       CheckSubmit(data) {
         if (this.house_list.some(i => !i.name || !i.images.length || !i.houseArea || !i.orientation))

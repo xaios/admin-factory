@@ -7,7 +7,7 @@ export default function(data, option = {}) {
     data = JSON.parse(data.trim())
     if (!option.array_able && Array.isArray(data))
       Dialog.warning('请输入对象格式的 JSON')
-    else if (data.toString() != '[object Object]')
+    else if (data.toString() !== '[object Object]')
       Dialog.warning('请输入正确的 JSON 格式内容')
     else
       return data

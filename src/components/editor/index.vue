@@ -52,7 +52,7 @@
     computed: mapState(['lang']),
     watch: {
       value(value) {
-        this.editor.getHTML() != value && this.editor.commands.setContent(this.value, false)
+        this.editor.getHTML() !== value && this.editor.commands.setContent(this.value, false)
       }
     },
     methods: {
@@ -102,11 +102,11 @@
         content: this.value,
         onUpdate: () => {
           let value = this.editor.getHTML()
-          this.$emit('update:value', value == '<p></p>' ? '' : value)
+          this.$emit('update:value', value === '<p></p>' ? '' : value)
         },
         onBlur: () => {
           let value = this.editor.getHTML()
-          this.$emit('update:value', value == '<p></p>' ? '' : value)
+          this.$emit('update:value', value === '<p></p>' ? '' : value)
         }
       })
 
