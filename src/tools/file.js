@@ -9,10 +9,7 @@ function Import(validator, next) {
     reader.onload = () => next(reader.result)
 
     if (validator) {
-      let result = validator(file)
-      if (result instanceof Promise)
-        result = await result
-
+      let result = await validator(file)
       result && reader.readAsText(file)
     } else {
       reader.readAsText(file)

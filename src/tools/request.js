@@ -1,9 +1,9 @@
-import axios from 'axios'
+import Axios from 'axios'
 import LANG from '@root/tools/language'
 import useRootStore from '@root/tools/store'
 import { Dialog, Message, Loading } from '@root/tools/operate'
 
-const Request = axios.create({ timeout: 30000, baseURL: '/api' })
+const Request = Axios.create({ timeout: 30000, baseURL: '/api' })
 
 Request.interceptors.response.use(res => {
   res = res.data

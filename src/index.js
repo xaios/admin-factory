@@ -19,6 +19,7 @@ export default function(name, origin = false) {
   const config = JSON.parse(fs.readFileSync(`${root}/config/config.json`, 'utf-8'))
 
   return {
+    configFile: false,
     base: process.env.NODE_ENV === 'production' ? `/${config.path || 'admin'}/` : '/',
     server: {
       port: config.port || 80,

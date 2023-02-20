@@ -56,10 +56,9 @@
       }
     },
     methods: {
-      async ChooseImage(index) {
+      ChooseImage(index) {
         if (this.readonly) return
-        let file = await this.$photo(this.width, this.height, this.crop)
-        file && this.AddItem(file, index)
+        this.$photo(this.width, this.height, this.crop).then(file => this.AddItem(file, index))
       },
       AddItem(file, index) {
         let src = URL.createObjectURL(file)

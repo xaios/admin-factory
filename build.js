@@ -11,8 +11,7 @@ if (!await stat(path).catch(() => {})) {
 
 console.log('')
 
-build({
-  ...CreateConfig(path.slice(4), process.argv[3] === 'true'),
-  configFile: false,
-  build: { reportCompressedSize: false, chunkSizeWarningLimit: 2048 }
-})
+const config = CreateConfig(path.slice(4), process.argv[3] === 'true')
+config.build = { reportCompressedSize: false, chunkSizeWarningLimit: 2048 }
+
+build(config)

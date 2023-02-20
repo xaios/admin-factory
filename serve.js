@@ -12,8 +12,7 @@ if (!await stat(path).catch(() => {})) {
 const config = CreateConfig(path.slice(4))
 config.server.host = true
 
-const server = await createServer({ configFile: false, ...config })
-
+const server = await createServer(config)
 await server.listen()
 
 process.stdout.cursorTo(0, 0)

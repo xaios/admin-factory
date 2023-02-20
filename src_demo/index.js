@@ -1,3 +1,3 @@
-import app from '@root/tools/init'
+import app from '@root/tools/app'
 
 app.mount('#app')

@@ -1,4 +1,15 @@
-# 更新日志（各版本更新均会更新依赖内容，故不单独列出，样式优化同理）
+# 更新日志
+
+---
+
+## 1.3.0丨2023-02-20
+
+### 优化与修复
+- 优化部分写法。
+
+### 破坏性更新
+- 重命名 `@root/tools/init` 为 `@root/tools/app`。
+  - 需修改项目的初始化文件 `@self/index.js`。
 
 ---
 
@@ -96,7 +107,7 @@
 
 ### 破坏性更新
 - 移除 `vuex`，转为使用 `pinia`。
-  - 已代理 `this.$store_root` 与私有的 `this.$store` 至全局环境。
+  - 已代理基础库的 `this.$store_root` 与私有的 `this.$store` 至全局环境。
   - 需要修改项目中的 `config/store.js`，参考 `/src_demo/config/store.js`。
 
 ---

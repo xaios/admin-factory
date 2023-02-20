@@ -6,7 +6,7 @@ export default defineStore('self', {
   }),
   actions: {
     PasswordValidate(data) {
-      return new Error('项目示例，不支持密码修改')
+      return new Error('示例项目不支持修改密码')
     }
   }
 })

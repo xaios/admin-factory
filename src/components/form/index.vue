@@ -1,21 +1,21 @@
 <template>
   <n-modal preset='card' :auto-focus='false' v-model:show='show' :style='modal_style'>
-    <n-form class='form_content' :class="{ 'g-form-10': readonly }" require-mark-placement='left' label-placement='left' :label-width='labelWidth' :model='model' :rules='rules' ref='model'>
+    <n-form class='form' :class="{ 'g-form-10': readonly }" require-mark-placement='left' label-placement='left' :label-width='labelWidth' :model='model' :rules='rules' ref='model'>
       <n-grid :cols='24' :x-gap='20'>
         <n-grid-item :span='item.span' v-for='item in config'>
           <n-scrollbar style='padding-right: 14px;' :style="{ maxHeight: full ? 'calc(100vh - 112px)' : '' }">
             <template v-for='n in item.list'>
               <n-form-item :label='n.text' :path='n.name' v-if='!n.Check || n.Check(model)' :ref='n.name'>
-                <n-input-number v-model:value='model[n.name]' :show-button='n.button || false' :min='n.min' :max='n.max' :precision='n.fixed' :placeholder='n.holder' v-if="n.type === 'number'" />
+                <n-input-number v-model:value='model[n.name]' :show-button='!!n.button' :min='n.min' :max='n.max' :precision='n.fixed' :placeholder='n.holder' v-if="n.type === 'number'" />
                 <g-editor v-model:value='model[n.name]' :placeholder='n.placeholder || `${lang.input}${n.text}`' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type === 'editor'" />
                 <g-image-picker v-model:value='model[n.name]' :crop='n.crop' :width='n.width' :height='n.height' :readonly='n.readonly' @update:value='Check(n.name)' @upload='Uploaded' :ref='`component_${n.name}`' v-else-if="n.type === 'image'" />
                 <n-rate v-model:value='model[n.name]' v-else-if="n.type === 'rate'" />
                 <n-date-picker v-model:value='model[n.name]' close-on-select :clearable='!!n.clearable' :type="n.mode || 'date'" v-else-if="n.type === 'date'" />
+                <n-dynamic-tags v-model:value='model[n.name]' v-else-if="n.type === 'tags'" />
+                <n-switch v-model:value='model[n.name]' v-else-if="n.type === 'switch'" />
+                <n-select v-model:value='model[n.name]' filterable :clearable='n.clearable' :multiple='n.multiple' :options='n.list' @update:value='n.Change' v-else-if="n.type === 'select'" />
                 <n-input v-model:value='model[n.name]' type='textarea' show-count :rows='5' :disabled='n.disabled' :maxlength='n.max' :placeholder='n.holder' v-else-if="n.type === 'textarea'" />
                 <n-input v-model:value='model[n.name]' type='password' show-password-on='click' :input-props="{ autocomplete: 'new-password' }" :placeholder='lang.holder' v-else-if="n.type === 'password'" />
-                <n-select v-model:value='model[n.name]' filterable :clearable='n.clearable' :multiple='n.multiple' :options='n.list' @update:value='n.Change' v-else-if="n.type === 'select'" />
-                <n-switch v-model:value='model[n.name]' v-else-if="n.type === 'switch'" />
-                <n-dynamic-tags v-model:value='model[n.name]' v-else-if="n.type === 'tags'" />
                 <slot :name='n.name' v-else-if="n.type === 'slot'" />
                 <span v-else-if="n.type === 'text'">{{`${model[n.name]}` || lang.nothing}}</span>
                 <n-input v-model:value='model[n.name]' separator='-' :pair='n.pair' :disabled='n.disabled' :placeholder='n.holder' v-else />
@@ -173,6 +173,6 @@
 </script>
 
 <style scoped lang='stylus'>
-  .form_content:deep(.n-scrollbar-content)
+  .form:deep(.n-scrollbar-content)
     padding 2px 2px 0 0
 </style>

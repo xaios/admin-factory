@@ -1,10 +1,5 @@
 <style scoped lang='stylus' src='./index.styl'></style>
 
-<style lang='stylus'>
-  .n-form-item-blank--error .editor .editor_content
-    border-color #d03050
-</style>
-
 <template>
   <div class='editor' :class='{ is_full: is_full }'>
     <div class='editor_content' ref='container'>

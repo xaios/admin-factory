@@ -8,11 +8,6 @@
   <n-image width='150' height='150' object-fit='contain' :show-toolbar='false' :src='value' v-if='type === 3' />
 </template>
 
-<script>
-  export default {
-    props: {
-      type: Number,
-      value: String
-    }
-  }
+<script setup>
+  defineProps({ type: Number, value: String })
 </script>
