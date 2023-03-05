@@ -13,7 +13,7 @@
     </n-layout-header>
     <n-layout has-sider class='sider'>
       <n-layout-sider inverted show-trigger='bar' content-style='padding-right: 10px;' :native-scrollbar='false' :collapsed-width='0' :width='sider_width' v-if='menu.length'>
-        <n-menu inverted :options='menu' :render-label='RenderMenuLabel' v-model:expanded-keys='menu_opened' :value='menu_active' @update:value='ChangeMenu' />
+        <n-menu inverted :render-label='RenderMenuLabel' :options='menu' :value='menu_active' @update:value='ChangeMenu' ref='menu' />
       </n-layout-sider>
       <n-layout-content class='content'>
         <n-tabs closable style='height: 40px;' type='card' v-model:value='page' @close='RemoveTab' @update:value='ChooseTab' v-if='menu.length'>
@@ -81,7 +81,6 @@
     data: () => ({
       IconArrow: markRaw(IconArrow),
       IconPassword: markRaw(IconPassword),
-      menu_opened: [],
       menu_active: '',
       page: '',
       tabs: [],
@@ -94,7 +93,10 @@
       loading: false
     }),
     computed: {
-      ...mapState(['env', 'user_name', 'menu', 'keep', 'lang', 'menu_route', 'sider_width']),
+      ...mapState(['env', 'user_name', 'menu', 'keep', 'lang', 'menu_default']),
+      sider_width() {
+        return this.env.sider_width || '14vw'
+      },
       keep_alive() {
         return this.tabs.map(i => i.name).filter(i => this.keep.has(i))
       },
@@ -200,25 +202,8 @@
         this.is_removed = true
         this.page === name && this.ChooseTab(!this.tabs.length ? '/space' : this.tabs[index ? index - 1 : 0].path)
       },
-      FocusMenu(name) {
-        let menu = this.menu.find(i => i.key === name)
-        if (menu) {
-          if (menu.children && !this.menu_opened.includes(menu.key))
-            this.menu_opened.push(menu.key)
-
-          return menu.children ? menu.children[0].key : name
-        }
-
-        menu = this.menu.find(i => i.children && i.children.some(i => i.key === name))
-        if (!menu) return ''
-
-        if (!this.menu_opened.includes(menu.key))
-          this.menu_opened.push(menu.key)
-
-        return name
-      },
       UpdateRoute(page) {
-        this.menu_active = this.FocusMenu(page.meta.name)
+        this.menu_active = page.meta.name
         this.page = page.fullPath
 
         if (page.meta.name) {
@@ -230,14 +215,19 @@
         } else if (page.name === 'space' && this.tabs.length) {
           this.ChooseTab(this.tabs[0].path)
         } else if (page.name === 'space' && !this.is_removed) {
-          this.ChooseTab(this.menu.length ? this.menu[0].path : this.menu_route[0].path)
+          this.ChooseTab(this.menu.length ? this.menu[0].path : this.menu_default)
         }
 
-        this.BackTop()
         this.is_removed = false
+
+        if (!this.menu.length) return
+        nextTick(() => {
+          this.BackTop()
+          this.$refs.menu.showOption()
+        })
       },
       BackTop() {
-        this.$refs.scroll?.scrollTo({ top: 0 })
+        this.$refs.scroll.scrollTo({ top: 0 })
       }
     },
     created() {

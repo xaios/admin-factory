@@ -4,6 +4,7 @@
 
 ```javascript
 {
+  "auth": "session",                                                // 鉴权生效时间，默认存在 localStorage 中，可设置值为 session
   "name": "Admin Demo",                                             // 项目标题
   "tips": "Powered by Pomelo Studio",                               // 登录页页脚文案
   "lang": "cn",                                                     // 项目基础语言包：cn、cht、en，默认 cn
@@ -27,10 +28,11 @@
 - text：菜单名称，同时作为 Tab 中的名称
 - keep：是否缓存，存在于 Tab 时 <keep-alive> 将生效，需要组件内配置 name 属性，与 name 一致，因未知原因，此时 n-pagination 不能用 v-model:page，只能用 :page
 - hide：是否隐藏，将不存在于侧边菜单，但路由可以正常访问，若访问也会出现在 Tab 中
+- pure: 是否独立，将不嵌入管理后台，路由可以正常访问，keep 选项不会生效，状态不会被缓存。
 - list：页面列表，文件管理以目录形式进行，不存在 list 时默认读取 name 目录下的 index.vue，若为 list 的内容将读取对应父目录下，以子页面 name 命名的单文件组件
 - link：跳转地址，用以支持外部页面，将以新标签页的形式打开，需要随便给个 name 值
 
-仅支持一二级菜单，也就是不能在 list 下套 list。
+最多只支持两级菜单，也就是不能在 list 下套 list，主要是不推荐如此复杂的菜单组合，不利于用户操作。
 
 ```javascript
 export default {

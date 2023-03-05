@@ -3,8 +3,12 @@ import '@root/style/index.styl'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import VueCropper from 'vue-cropper'
+
+import ENV from '@self/config/config.json'
+
+window.TOKEN = `pomelo_token_${location.origin}`
+window.SESSION = ENV.auth === 'session' ? sessionStorage : localStorage
 
 import route from '@root/tools/route'
 import useRootStore from '@root/tools/store'

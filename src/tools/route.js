@@ -5,59 +5,52 @@ import useRootStore from '@root/tools/store'
 import CONFIG from '@self/config/route'
 import COMPONENT_SPACE from '@root/pages/space/index.vue'
 
-const TOKEN = `pomelo_token_${location.origin}`
-
-const PAGES = import.meta.glob('@self/pages/*/*.vue')
-Object.keys(PAGES).forEach(i => PAGES[i.replace(/\/src_\w+\/pages/, 'pages')] = PAGES[i])
+const FILES = import.meta.glob('@self/pages/**/*.vue')
+Object.keys(FILES).forEach(i => FILES[i.replace(/\/src_\w+\/pages\//, '').replace(/\.vue$/, '')] = FILES[i])
 
 function FormatMenus(list, path = []) {
   return list.map(i => {
-    if (i.hide) return ''
+    if (i.hide || i.pure) return null
 
-    let name = path.concat([i.name]).join('/')
-    let item = { key: name, text: i.text, link: i.link, path: `/${name}`, children: i.list ? FormatMenus(i.list, [...path, i.name]) : undefined }
+    let name = path.concat(i.name).join('/')
+    let item = { key: name, text: i.text, path: `/${name}` }
 
-    return !item.list || item.children.length ? item : ''
+    if (i.link) item.link = i.link
+    if (i.list) item.children = FormatMenus(i.list, [...path, i.name])
+
+    return !i.list || item.children.length ? item : null
   }).filter(i => i)
 }
 
-function RenderRoute(path, file, meta, name) {
-  return {
-    name: path,
-    path: `/${path}`,
-    component: COMPONENT_SPACE,
-    children: [{ name: path, path: '', meta: { name: name || path, text: meta.text, keep: !!meta.keep }, component: PAGES[`pages/${file}.vue`] }]
-  }
-}
+function FormatRoute(list, path = []) {
+  return list.map(i => {
+    let name = path.concat(i.name).join('/')
+    let file = FILES[path.length ? name : `${name}/index`]
 
-function FormatRoute(list) {
-  let route = []
-
-  list.forEach(i => {
-    if (i.list) {
-      route.push(RenderRoute(i.name, `${i.name}/${i.list[0].name}`, i.list[0]))
-      i.list.forEach(n => route.push(RenderRoute(`${i.name}/${n.name}`, `${i.name}/${n.name}`, n)))
-    } else {
-      route.push(RenderRoute(i.name, `${i.name}/index`, i))
-      route.push(RenderRoute(`${i.name}/index`, `${i.name}/index`, i, i.name))
-    }
+    if (i.list)
+      return [
+        { path: `/${name}`, name, redirect: `/${name}/${i.list[0].name}` },
+        ...FormatRoute(i.list, [...path, i.name])
+      ]
+    else
+      return i.pure ?
+        { path: `/${name}`, name, component: file } :
+        { path: `/${name}`, component: COMPONENT_SPACE, children: [
+          { path: '', name, component: file, meta: { name, text: i.text, keep: !!i.keep } }
+        ] }
   })
-
-  return route
 }
 
 const CONFIG_ROLE = {}
 Object.keys(CONFIG).forEach(i => {
-  if (i[0] !== '_')
-    CONFIG_ROLE[i] = { menus: FormatMenus(CONFIG[i]), route: FormatRoute(CONFIG[i]) }
+  CONFIG_ROLE[i] = { menus: FormatMenus(CONFIG[i]), route: FormatRoute(CONFIG[i]).flat(Infinity) }
 })
 
 const router = createRouter({
   history: createWebHashHistory(),
   routes: [
-    ...(CONFIG._route || []).map(i => ({ path: `/${i.name}`, component: PAGES[`pages/${i.name}/index.vue`] })),
-    { path: '/index', component: PAGES[`pages/index/index.vue`] || (() => import('@root/pages/index/index.vue')) },
     { path: '/login', component: () => import('@root/pages/login/index.vue') },
+    { path: '/index', component: FILES['index/index'] || (() => import('@root/pages/index/index.vue')) },
     { path: '/space', name: 'space', meta: { auth: true }, component: COMPONENT_SPACE }
   ]
 })
@@ -65,34 +58,35 @@ const router = createRouter({
 router.beforeEach(async (to, from) => {
   const store = useRootStore()
 
-  if (localStorage[TOKEN] && !store.menu_route.length)
+  if (SESSION[TOKEN] && !store.menu_default)
     try {
-      await store.GetUserInfo()
+      await store.InitUser()
       return to.fullPath
-    } catch(e) {
+    } catch {
       return false
     }
 
-  if (!to.matched.length || (to.path === '/login' && localStorage[TOKEN]))
+  if (!to.matched.length || (to.path === '/login' && SESSION[TOKEN]))
     return '/index'
 
-  if (to.meta.auth && !localStorage[TOKEN])
+  if (to.meta.auth && !SESSION[TOKEN])
     return '/login'
 
   if (to.fullPath === from.fullPath)
     return false
 })
 
-export function AddRoute(role) {
+export function CreateRoute(role) {
   CONFIG_ROLE[role].route.forEach(i => router.addRoute(i))
+
   useRootStore().$patch({
     menu: CONFIG_ROLE[role].menus,
-    menu_route: CONFIG_ROLE[role].route,
+    menu_default: CONFIG_ROLE[role].route[0].path,
     keep: new Set(router.getRoutes().filter(i => i.meta.keep).map(i => i.meta.name))
   })
 }
 
-export function ResetRoute(role) {
+export function RemoveRoute(role) {
   CONFIG_ROLE[role].route.forEach(i => router.removeRoute(i.name))
 }
 
