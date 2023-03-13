@@ -1,15 +1,10 @@
-import ClipboardJS from 'clipboard'
+import { ref } from 'vue'
+import { useClipboard } from '@vueuse/core'
 import { Message } from '@root/tools/operate'
 
-export default function(text, e) {
-  text = typeof text === 'string' ? text : JSON.stringify(text)
+export default function(source) {
+  source = typeof source === 'string' ? source : JSON.stringify(source)
 
-  let node = document.createElement('button')
-  let temp = new ClipboardJS(node, { container: e?.currentTarget, text: () => text })
-
-  temp.on('success', () => Message.success(`复制成功：${text}`))
-  temp.on('error', () => Message.error({ duration: 0, content: `复制失败：${text}` }))
-
-  node.click()
-  temp.destroy()
+  useClipboard({ source, legacy: true }).copy()
+  Message.success(`复制成功：${source}`)
 }

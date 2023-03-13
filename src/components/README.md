@@ -81,7 +81,7 @@ methods: {
 | - | - | - | - |
 | full | Boolean | false | 是否全屏 |
 | grid | Array\<Number> | [24] | 栅格分布，默认单列，总和须为 24 |
-| width | String | 600px | 整体宽度 |
+| width | String | 600 | 整体宽度，不填单位则默认为 px |
 | loading | Boolean | false | 是否正在处理 |
 | readonly | Boolean | false | 是否只读模式，仅缩小表单项间距 |
 | labelWidth | Number | 100 | 标签宽度 |

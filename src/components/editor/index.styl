@@ -1,55 +1,62 @@
 .editor
-  position relative
   width 100%
-  height 350px
-
-.editor_content
-  position absolute
-  top 0
-  left 0
-  width 100%
-  height 100%
+  caret-color #2b73af
   border 1px solid #dcdee2
+  transition box-shadow .3s cubic-bezier(.4, 0, .2, 1), border .3s cubic-bezier(.4, 0, .2, 1)
+
+.editor:focus-within
+  border-color #558fbf
+  box-shadow 0 0 0 2px rgba(43, 115, 175, .2)
+
+.n-form-item-blank--error .editor
+  caret-color #d03050
+  border-color #c72f50
+
+.n-form-item-blank--error .editor:focus-within
+  box-shadow 0 0 0 2px rgba(208, 48, 80, .2)
+
+.editor_tool
+  border-bottom 1px solid #dcdee2
+
+.editor_tool:deep(.w-e-toolbar)
+  padding 0
+
+.editor_core
+  font-size 14px
+
+.editor_core:deep(.w-e-text-placeholder)
+  font-style normal
+
+.editor:not(.w-e-full-screen-container)
   border-radius 3px
-  box-sizing border-box
 
-:global(.n-form-item-blank--error .editor_content)
-  border-color #d03050
+  .editor_tool:deep(.w-e-toolbar)
+    border-radius 3px 3px 0 0
 
-.is_full .editor_content
-  position fixed
-  border-radius 0
-  background #fff
-  z-index 9999
+  .editor_core:deep(.w-e-text-container)
+    border-radius 0 0 3px 3px
 
-.toolbar
-  padding 5px
-  margin-bottom 14px
-  border-bottom 1px solid #eeefef
+.editor.w-e-full-screen-container
+  z-index 99
 
-.is_full .toolbar
-  margin 10px 10px 14px
-  padding-bottom 15px
+  .editor_tool:deep( )
+    .w-e-toolbar
+      justify-content center
+      padding-left calc(50vw - 485px)
+      padding-right calc(50vw - 470px)
 
-.content
-  margin 0 14px 14px
-  line-height 1.5
+    .w-e-bar-item:last-child
+      margin-left auto
 
-.editor .content:deep(>div:focus-visible)
-  outline 0
+  .editor_core
+    background #f5f5f5
+    overflow-y auto
 
-.content:deep(p)
-  margin 0
-
-.content:deep(p).is-empty:first-child::before
-  content attr(data-placeholder)
-  height 0
-  float left
-  color #aaa
-  pointer-events none
-
-.content:deep(img)
-  max-width 100%
-
-.content:deep(p) br+br
-  display none
+    &:deep(.w-e-text-container)
+      width 850px
+      height unset
+      min-height 50vh
+      margin 30px auto 150px
+      padding 20px 50px 50px
+      border 1px solid #e8e8e8
+      box-shadow 0 2px 10px rgba(0, 0, 0, .12)

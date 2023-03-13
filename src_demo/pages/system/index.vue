@@ -2,7 +2,7 @@
   <div>
     <g-bar handle @handle='Edit' @reload='Load' />
     <g-table :columns='list_hd' :data='list_data' :loading='loading' />
-    <g-form :title='lang.system_config' width='800px' :label-width='120' :loading='loading' @submit='Submit' ref='form' />
+    <g-form :title='lang.system_config' width='800' :label-width='120' :loading='loading' @submit='Submit' ref='form' />
   </div>
 </template>
 

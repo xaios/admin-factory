@@ -1,37 +1,18 @@
 <style scoped lang='stylus' src='./index.styl'></style>
 
 <template>
-  <div class='editor' :class='{ is_full: is_full }'>
-    <div class='editor_content' ref='container'>
-      <n-space class='toolbar' ref='toolbar' v-if='editor'>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().toggleBold().run()'>{{lang.editor_bold}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().toggleItalic().run()'>{{lang.editor_italic}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().toggleUnderline().run()'>{{lang.editor_underline}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().toggleHeading({ level: 1 }).run()'>{{lang.editor_heading_1}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().toggleHeading({ level: 2 }).run()'>{{lang.editor_heading_2}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().toggleBulletList().run()'>{{lang.editor_bullet}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().toggleOrderedList().run()'>{{lang.editor_ordered}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().setTextAlign("left").run()'>{{lang.editor_align_0}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().setTextAlign("center").run()'>{{lang.editor_align_1}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='editor.chain().focus().setTextAlign("right").run()'>{{lang.editor_align_2}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='ChooseImage'>{{lang.editor_image}}</n-button>
-        <n-button secondary :size="is_full ? 'small' : 'tiny'" @click='ToggleFull'>{{is_full ? lang.editor_exit : lang.editor_full}}</n-button>
-      </n-space>
-      <n-scrollbar :style="{ maxHeight: is_full ? 'calc(100vh - 77px)' : normal_height }">
-        <editor-content class='content' :editor='editor' />
-      </n-scrollbar>
-    </div>
+  <div class='editor'>
+    <e-tool class='editor_tool' mode='simple' :default-config='config_tool' :editor='editor' />
+    <e-core class='editor_core' style='height: 350px;' :default-config='config_core' @on-created='Init' @on-change='Change' />
   </div>
 </template>
 
 <script>
-  import EditorImage from '@tiptap/extension-image'
-  import EditorStarterKit from '@tiptap/starter-kit'
-  import EditorUnderline from '@tiptap/extension-underline'
-  import EditorTextAlign from '@tiptap/extension-text-align'
-  import EditorPlaceholder from '@tiptap/extension-placeholder'
+  import '@wangeditor/editor/dist/css/style.css'
 
-  import { Editor, EditorContent } from '@tiptap/vue-3'
+  import { shallowRef } from 'vue'
+  import { useObjectUrl } from '@vueuse/core'
+  import { Toolbar as ETool, Editor as ECore } from '@wangeditor/editor-for-vue'
 
   export default {
     props: {
@@ -41,28 +22,50 @@
     emits: ['update:value', 'upload'],
     data: () => ({
       editor: null,
-      is_full: false,
-      normal_height: ''
+      config_tool: {
+        toolbarKeys: [
+          'blockquote', 'header1', 'header2', 'bold', 'underline', 'through', 'color', 'bulletedList',
+          'numberedList', 'justifyLeft', 'justifyCenter', 'justifyRight', 'insertLink', 'uploadImage', 'fullScreen'
+        ]
+      }
     }),
-    computed: mapState(['lang']),
+    computed: {
+      config_core() {
+        return {
+          placeholder: this.placeholder,
+          MENU_CONF: {
+            uploadImage: { customBrowseAndUpload: this.ChooseImage }
+          },
+          hoverbarKeys: {
+            image: { menuKeys: ['imageWidth30', 'imageWidth50', 'imageWidth100', 'deleteImage'] }
+          }
+        }
+      }
+    },
     watch: {
       value(value) {
-        this.editor.getHTML() !== value && this.editor.commands.setContent(this.value, false)
+        this.editor.getHtml() !== value && this.editor.setHtml(value)
       }
     },
     methods: {
-      ChooseImage() {
+      Init(editor) {
+        editor.setHtml(this.value)
+        this.editor = Object.seal(editor)
+      },
+      Change(editor) {
+        let value = editor.getHtml()
+        this.$emit('update:value', value === '<p><br></p>' ? '' : value)
+      },
+      ChooseImage(handle) {
         this.$photo().then(file => {
-          let src = URL.createObjectURL(file)
+          if (!file) return
+          let src = useObjectUrl(shallowRef(file)).value
           this.image_map[src] = file
-          this.editor.commands.setImage({ src })
+          handle(src)
         })
       },
-      ToggleFull() {
-        this.is_full = !this.is_full
-      },
       Upload() {
-        let content = this.editor.getHTML()
+        let content = this.editor.getHtml()
 
         let images = content.match(/<img.*?(?:>|\/>)/gi)
         if (!images) return this.$emit('upload')
@@ -83,31 +86,11 @@
         })
       }
     },
-    components: { EditorContent },
+    components: { ETool, ECore },
     mounted() {
       this.image_map = {}
-      this.editor = new Editor({
-        extensions: [
-          EditorStarterKit,
-          EditorUnderline,
-          EditorTextAlign.configure({ types: ['heading', 'paragraph'] }),
-          EditorImage.configure({ inline: true }),
-          EditorPlaceholder.configure({ placeholder: this.placeholder })
-        ],
-        content: this.value,
-        onUpdate: () => {
-          let value = this.editor.getHTML()
-          this.$emit('update:value', value === '<p></p>' ? '' : value)
-        },
-        onBlur: () => {
-          let value = this.editor.getHTML()
-          this.$emit('update:value', value === '<p></p>' ? '' : value)
-        }
-      })
-
-      nextTick(() => this.normal_height = this.$refs.container.offsetHeight - this.$refs.toolbar.$el.offsetHeight - 15 + 'px')
     },
-    beforeUnmount() {
+    unmounted() {
       this.editor.destroy()
     }
   }

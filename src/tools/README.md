@@ -61,16 +61,6 @@ this.$copy('1234567')
 this.$copy(123456789)
 this.$copy([1, 2, 3])
 this.$copy({ a: 23 })
-
-// 如果触发操作在 <n-modal /> 内，或提示成功实际无效，可尝试增加 DOM 参数
-// <div @click='Copy($event, 1)'></div>
-
-methods: {
-  Copy(e, text) {
-    // 会读取事件中的 currentTarget 使用
-    this.$copy(text, e)
-  }
-}
 ```
 
 ## 文件操作
@@ -121,9 +111,9 @@ this.$number(100000000)
 可以直接选择文件，也可以裁剪指定比例，或单纯裁剪，返回一个文件对象。
 
 ```javascript
-// this.$photo = (width: Number | undefined, height: Number | undefined, is_crop: Boolean) => File
+// this.$photo = (width: Number | undefined, height: Number | undefined, is_crop: Boolean) => File | undefined
 
-// 直接选择图片
+// 直接选择图片，当图片不符合内置校验的时候将返回 undefined
 this.$photo().then(file => {})
 
 // 指定比例裁剪图片

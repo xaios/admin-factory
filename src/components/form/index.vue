@@ -41,7 +41,7 @@
       loading: Boolean,
       readonly: Boolean,
       grid: { type: Array, default: [24] },
-      width: { type: String, default: '600px' },
+      width: { type: String, default: '600' },
       labelWidth: { type: Number, default: 100 }
     },
     emits: ['update:show', 'submit'],
@@ -54,8 +54,10 @@
     computed: {
       ...mapState(['lang']),
       modal_style() {
+        let width = /\d$/.test(this.width) ? `${this.width}px` : this.width
+        
         return {
-          width: this.full ? '100vw' : this.width,
+          width: this.full ? '100vw' : width,
           height: this.full ? '100vh' : undefined
         }
       },

@@ -19,6 +19,9 @@
 </template>
 
 <script>
+  import { shallowRef } from 'vue'
+  import { useObjectUrl } from '@vueuse/core'
+
   import IconDel from '@vicons/tabler/X'
   import IconAdd from '@vicons/tabler/Plus'
 
@@ -61,7 +64,8 @@
         this.$photo(this.width, this.height, this.crop).then(file => this.AddItem(file, index))
       },
       AddItem(file, index) {
-        let src = URL.createObjectURL(file)
+        if (!file) return
+        let src = useObjectUrl(shallowRef(file)).value
 
         if (index === this.list.length - 1)
           this.list.splice(this.list.length - 1, 0, src)

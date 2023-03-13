@@ -61,7 +61,7 @@ export default defineStore('self', {
   state: () => ({
     // 可以定义一个名为 copyright 的 VNode，将渲染在登录页页脚部分
     copyright: h('div', 'copyright'),
-    // 可以定义图片选择大小，单位为 B，默认 2MB，设置 -1 跳过校验
+    // 可以定义图片选择大小，单位为 B，默认 2MB，设置 -1 跳过校验，需要同时配置自定义语言包的 upload_max_size 项
     max_size: -1
   }),
   actions: {

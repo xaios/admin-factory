@@ -3,7 +3,7 @@
     <g-bar handle filter @handle='Edit' @reload='Load' />
     <g-table :columns='list_hd' :data='list_data' :loading='loading' />
     <n-pagination :page-size='20' :item-count='list_total' :page='list_index' @update:page='Load' />
-    <g-form title='文章信息' width='800px' :loading='loading' @submit='Submit' ref='form' />
+    <g-form title='文章信息' width='750' :loading='loading' @submit='Submit' ref='form' />
   </div>
 </template>
 

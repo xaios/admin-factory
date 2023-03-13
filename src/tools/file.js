@@ -36,6 +36,7 @@ function Export(name, data) {
   a.href = URL.createObjectURL(new Blob(['\ufeff', data]))
   a.download = name
   a.click()
+  URL.revokeObjectURL(a.href)
 }
 
 export function ExportJson(name, data) {
