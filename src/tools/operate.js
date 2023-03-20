@@ -1,8 +1,8 @@
-import TinyEmitter from 'tiny-emitter'
+import Emittery from 'emittery'
 
 import LANG from '@root/tools/language'
 
-const Emitter = new TinyEmitter
+const Emitter = new Emittery
 
 export default Emitter
 
@@ -10,17 +10,17 @@ export const Loading = {
   hard: false,
   show(hard, desc = '') {
     this.hard = this.hard || hard === true
-    Emitter.emit('spin', true, desc)
+    Emitter.emit('spin', [true, desc])
   },
   hide(hard, desc = '') {
     if (this.hard && hard !== true) return
     this.hard = false
-    Emitter.emit('spin', false, desc)
+    Emitter.emit('spin', [false, desc])
   }
 }
 
 export const Notice = new Proxy({}, {
-  get: (_, type) => config => Emitter.emit('notice', type, config)
+  get: (_, type) => config => Emitter.emit('notice', [type, config])
 })
 
 export const Dialog = new Proxy({}, {
@@ -40,7 +40,7 @@ export const Dialog = new Proxy({}, {
       config.onPositiveClick = () => config.Todo1 ? config.Todo1() : resolve()
       config.onNegativeClick = () => config.Todo0 ? config.Todo0() : reject()
 
-      Emitter.emit('dialog', type, config)
+      Emitter.emit('dialog', [type, config])
     })
   }
 })
@@ -53,13 +53,13 @@ export const Message = new Proxy({}, {
 
       config.duration = config.duration ?? (config.closable ? 0 : 5000)
 
-      Emitter.emit('message', type, content, config, resolve)
+      Emitter.emit('message', [type, content, config, resolve])
     })
   }
 })
 
 export function ContextMenu(e, option) {
-  return new Promise(resolve => Emitter.emit('menu', e, option, resolve))
+  return new Promise(resolve => Emitter.emit('menu', [e, option, resolve]))
 }
 
 export function BackTop() {

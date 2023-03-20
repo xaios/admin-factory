@@ -19,7 +19,7 @@ export default function(width, height, is_crop) {
         Message.warning(LANG.upload_max_size)
         resolve()
       } else if (width || is_crop) {
-        Emitter.emit('crop', file, width ? [width, height] : is_crop, resolve)
+        Emitter.emit('crop', [file, width ? [width, height] : is_crop, resolve])
       } else {
         resolve(file)
       }

@@ -11,11 +11,11 @@
   import { useDialog, useMessage, useNotification } from 'naive-ui'
 
   const Dialog = useDialog()
-  Emitter.on('dialog', (mode, config) => Dialog[mode](config))
+  Emitter.on('dialog', ([mode, config]) => Dialog[mode](config))
 
   const Message = useMessage()
-  Emitter.on('message', (mode, text, config, resolve) => resolve(Message[mode](text, config)))
+  Emitter.on('message', ([mode, text, config, resolve]) => resolve(Message[mode](text, config)))
 
   const Notice = useNotification()
-  Emitter.on('notice', (mode, config) => Notice[mode](config))
+  Emitter.on('notice', ([mode, config]) => Notice[mode](config))
 </script>

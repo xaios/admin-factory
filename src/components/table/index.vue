@@ -1,5 +1,5 @@
 <template>
-  <n-data-table :single-line='false' :row-key='n => n.id'>
+  <n-data-table :single-line='false' :row-props='rowProps' :row-key='n => n.id'>
     <template #empty>
       <n-empty :description='lang.no_data' />
     </template>
@@ -8,6 +8,9 @@
 
 <script>
   export default {
+    props: {
+      rowProps: Object
+    },
     computed: mapState(['lang'])
   }
 </script>

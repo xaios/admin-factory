@@ -68,17 +68,17 @@
         this.show_cropper = false
       },
       SubmitCropper() {
-        this.$refs.cropper.getCropBlob(blob => this.HideCropper(new File([blob], 'temp.jpg')))
+        this.$refs.cropper.getCropBlob(blob => this.HideCropper(new File([blob], 'temp.jpg', { type: 'image/jpeg' })))
       }
     },
     components: { ContainerContent },
     created() {
-      Emitter.on('spin', (show, desc) => {
+      Emitter.on('spin', ([show, desc]) => {
         this.spin_desc = desc
         this.show_spin = show
       })
 
-      Emitter.on('menu', (e, option, next) => {
+      Emitter.on('menu', ([e, option, next]) => {
         e.preventDefault()
         this.menu_x = e.clientX
         this.menu_y = e.clientY
@@ -89,7 +89,7 @@
         this.MenuResult = next
       })
 
-      Emitter.on('crop', (image, size, next) => {
+      Emitter.on('crop', ([image, size, next]) => {
         this.$spin.show()
         this.cropper_fixed = Array.isArray(size)
         this.cropper_radio = Array.isArray(size) ? size : [1, 1]

@@ -30,7 +30,7 @@ function FormatRoute(list, path = []) {
     if (i.list)
       return [
         { path: `/${name}`, name, redirect: `/${name}/${i.list[0].name}` },
-        ...FormatRoute(i.list, [...path, i.name])
+        FormatRoute(i.list, [...path, i.name])
       ]
     else
       return i.pure ?
