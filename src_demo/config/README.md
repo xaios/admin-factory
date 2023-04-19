@@ -12,7 +12,11 @@
   "host": "https://demo-admin.muops.com/",                          // 接口请求转发地址
   "icon": "https://www.naiveui.com/assets/naivelogo.93278402.svg",  // 项目图标，默认为空，可用 @self 指代项目目录
   "port": 80,                                                       // 开发服务器监听端口，默认 80
-  "sider_width": "14vw"                                             // 侧边栏宽度，默认 14vw
+  "sider_width": "14vw",                                            // 侧边栏宽度，默认 14vw
+  "file": {                                                         // 文件上传接口配置
+    "path": "/File/FileUpload",                                     // 接口地址，可配置带协议的完整路径
+    "data": {}                                                      // 额外参数，比如项目 ID
+  }
 }
 ```
 

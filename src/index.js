@@ -23,7 +23,9 @@ export default function(name, origin = false) {
     base: process.env.NODE_ENV === 'production' ? `/${config.path || 'admin'}/` : '/',
     server: {
       port: config.port || 80,
-      proxy: { '/api': config.host }
+      proxy: {
+        '/api': { target: config.host, secure: false }
+      }
     },
     resolve: {
       alias: {

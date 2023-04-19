@@ -1,5 +1,6 @@
 import Axios from 'axios'
 import LANG from '@root/tools/language'
+import ENV from '@self/config/config.json'
 import useRootStore from '@root/tools/store'
 import { Dialog, Message, Loading } from '@root/tools/operate'
 
@@ -48,5 +49,11 @@ export function Upload(file) {
   let data = new FormData
   data.append('file', file)
 
-  return Request.post('/File/FileUpload', data, { headers: { 'Content-Type': 'multipart/form-data' } })
+  let config = ENV.file || {}
+  let config_path = config.path || '/File/FileUpload'
+
+  let config_data = config.data || {}
+  Object.keys(config_data).forEach(i => data.append(i, config_data[i]))
+
+  return Request.post(config_path, data, { headers: { 'Content-Type': 'multipart/form-data' } })
 }

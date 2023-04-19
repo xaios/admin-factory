@@ -9,7 +9,7 @@
 <script>
   export default {
     props: {
-      rowProps: Object
+      rowProps: Function
     },
     computed: mapState(['lang'])
   }
